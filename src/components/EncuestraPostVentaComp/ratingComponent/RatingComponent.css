@@ -1,0 +1,36 @@
+/* RatingComponent.css */
+
+.rating-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .star {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .red {
+    border-color: red;
+  }
+  
+  .orange {
+    border-color: orange;
+  }
+  
+  .green {
+    border-color: green;
+  }
+  
+  .selected {
+    background-color: yellow; /* Puedes personalizar el color de fondo cuando la estrella está seleccionada */
+  }
+  

@@ -1,0 +1,28 @@
+
+export let productoEncerrado = {
+    "fecha_actual": "28/12/2023 20:50:27",
+    "organizacion": "",
+    "nombre": "",
+    "organizationid": "",
+    "bodega": "",
+    "categoria": "",
+    "codigo": "",
+    "descripcion": "",
+    "unidad": 0,
+    "cantidad": 0,
+    "atributos": "",
+    "color": "",
+    atributo1: "0",
+    atributo2: "0",
+    "atributo3": "0",
+    "atributo4": "0",
+    "ubicacion": "",
+    "c_oem": "",
+    "tercero": "",
+    "dateordered": "",
+    "priceactual": "",
+    "cantidadbuenestado": "",
+    "cantidadmalestado": "",
+    "cantidadtotal": "",
+
+  }

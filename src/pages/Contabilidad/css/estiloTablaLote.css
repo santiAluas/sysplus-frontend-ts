@@ -1,0 +1,82 @@
+/* Estilo principal de la tabla */
+.styled-table {
+  border: 1px solid black;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.styled-table caption {
+  font-size: 1.5em;
+  margin: 0.5em 0 0.75em;
+}
+
+.styled-table tr {
+  background-color: rgba(62, 63, 63, 0.8);
+  border: 1px solid black;
+  padding: 0.35em;
+}
+
+.styled-table th,
+.styled-table td {
+  width: 100%;
+  padding: 0.625em;
+  text-align: center;
+  color: rgb(217, 189, 48);
+  font-size: 11px;
+}
+
+.styled-table th {
+  font-size: 0.85em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Diseño responsivo */
+@media screen and (max-width: 2000px) {
+  .styled-table {
+    border: 0;
+  }
+
+  .styled-table caption {
+    font-size: 1.3em;
+  }
+
+  .styled-table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  .styled-table tr {
+    border-bottom: 3px  black;
+    display: block;
+    margin-bottom: 0.625em;
+  }
+
+  .styled-table td {
+    border-bottom: 1px  black;
+    display: block;
+    font-size: 0.7em;
+    text-align: right;
+    height: 23px;
+  }
+
+  .styled-table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .styled-table td:last-child {
+    border-bottom: 0;
+  }
+}

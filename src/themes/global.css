@@ -1,0 +1,285 @@
+
+:root{
+  --brand: #2563eb;
+  --brand-600:#2563eb;
+  --brand-700:#1d4ed8;
+  --bg:#ffffff;
+  --surface:#ffffff;
+  --navbarcolor: #221f1f;
+  --surface-2:#f3f4f6;
+  --text:#1f2937;
+  --textBlanco:#ffffff;
+  --muted:#6b7280;
+  --border:#686868;
+  --radius:12px;
+  --shadow-1:0 1px 3px rgba(0,0,0,.08);
+  --shadow-2:0 6px 16px rgba(0,0,0,.10);
+  --focus:0 0 0 3px rgba(37,99,235,.25);
+}
+
+
+.container{ width:min(100%,1200px); margin-inline:auto; padding-inline:clamp(16px,3vw,24px); }
+
+.css-zjolfs-MuiTable-root.Table-table {
+  table-layout: auto !important;     
+  border-collapse: collapse !important; 
+}
+.MuiTypography-root{
+  color: #ffffff;
+}
+.MuiPaper-root {
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.18),
+    0 16px 40px rgba(0,0,0,0.2) !important;
+}
+
+.titleBasePage{
+  color: #475569;
+}
+
+.MuiCardContent-root{
+  padding: 2220;
+  margin: -500;
+}
+
+
+
+
+/* Quita todos los bordes laterales y superiores, pero mantiene un separador por fila */
+table {
+  border: none !important;             /* sin marco exterior */
+}
+
+ td,
+ th {
+  border: none !important;             /* resetea */
+  border-bottom: 1px solid rgba(0,0,0,0.10) !important; /* 👈 separador por fila */
+}
+
+/* Header un poco más marcado */
+ thead th {
+  border-bottom: 1px solid rgba(0,0,0,0.18) !important;
+}
+
+/* Última fila sin línea extra */
+ tbody tr:last-child td {
+  border-bottom: none !important;
+}
+
+/* Fuerza que todas las tablas del Grid usen ancho fijo */
+.css-zjolfs-MuiTable-root.Table-table {
+  table-layout: fixed !important;     
+  border-collapse: collapse !important; 
+  width: 100% !important; /* asegura ocupar todo el contenedor */
+}
+
+/* Asegura que no aparezca columna “stub” */
+.css-zjolfs-MuiTable-root.Table-table colgroup col:last-child {
+  display: none !important;
+}
+
+/* Quita todos los bordes laterales y superiores, pero mantiene un separador por fila */
+.tablaNueva table {
+  border: none !important;             /* sin marco exterior */
+}
+
+.tablaNueva td,
+.tablaNueva th {
+  border: none !important;             /* resetea */
+  border-bottom: 1px solid rgba(0,0,0,0.10) !important; /* 👈 separador por fila */
+}
+
+/* Header un poco más marcado */
+.tablaNueva thead th {
+  border-bottom: 1px solid rgba(0,0,0,0.18) !important;
+}
+
+/* Última fila sin línea extra */
+.tablaNueva tbody tr:last-child td {
+  border-bottom: none !important;
+}
+
+
+
+
+
+
+
+
+
+/* ====== Tabla base ====== */
+.TableWrapper,
+.TableWrapper * {
+  box-sizing: border-box;
+}
+
+.MuiTable-root.Table-table,
+.Table-table {
+  width: 100% !important;
+  min-width: 100% !important;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--surface, #fff);
+  border-radius: var(--radius, 12px);
+  box-shadow: var(--shadow-1, 0 1px 3px rgba(0,0,0,.08));
+  overflow: hidden;
+}
+
+/* ====== Encabezado (sticky + estilo) ====== */
+.MuiTableHead-root th,
+.Table-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: linear-gradient(
+    180deg,
+    var(--surface, #fff),
+    rgba(255,255,255,0.92)
+  );
+  backdrop-filter: saturate(180%) blur(8px);
+  font-weight: 700;
+  color: var(--text, #1f2937);
+  letter-spacing: .2px;
+  border-bottom: 1px solid var(--border, #e5e7eb);
+  padding: 8px 12px;
+  white-space: nowrap;
+}
+
+.MuiTableHead-root tr:first-of-type th:first-of-type {
+  border-top-left-radius: var(--radius, 12px);
+}
+.MuiTableHead-root tr:first-of-type th:last-of-type {
+  border-top-right-radius: var(--radius, 12px);
+}
+
+.Table-table td,
+.Table-table th {
+  font-size: 13.5px;
+  color: var(--text, #1f2937);
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border, #e5e7eb);
+  vertical-align: middle;
+}
+
+/* Alineación centrada para celdas marcadas */
+.TableCell-cellCenterAlign,
+.CellLayout-cellCenter,
+.Content-alignCenter {
+  text-align: center !important;
+}
+
+.MuiTableBody-root tr:nth-of-type(odd) {
+  background-color: var(--surface-2, #f8fafc);
+}
+.MuiTableBody-root tr:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+.TableFilterCell-cell .MuiInputBase-root {
+  background: #fff;
+  border-radius: 8px;
+}
+.TableFilterCell-cell .MuiOutlinedInput-notchedOutline {
+  border-color: var(--border, #e5e7eb) !important;
+}
+.TableFilterCell-cell .MuiInputBase-input {
+  padding: 6px 10px;
+  font-size: 13px;
+}
+.TableFilterCell-cell .MuiSvgIcon-root {
+  opacity: .75;
+}
+
+/* ====== Toolbar / SearchPanel ====== */
+.DxToolbar-root,
+.MuiToolbar-root {
+  background: transparent;
+}
+.MuiInputBase-root.MuiOutlinedInput-root {
+  border-radius: 10px;
+}
+
+.TableStubCell-cell {
+  background: transparent;
+  border-bottom: none;
+}
+
+.TableNoDataCell-textContainer {
+  padding: 24px 16px;
+}
+.TableNoDataCell-text {
+  color: var(--muted, #6b7280);
+  font-weight: 600;
+}
+
+.TableWrapper {
+  overflow-x: auto;
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: var(--radius, 12px);
+  box-shadow: var(--shadow-2, 0 6px 16px rgba(0,0,0,.10));
+  background: var(--surface, #fff);
+  scrollbar-width: thin;
+}
+.TableWrapper::-webkit-scrollbar {
+  height: 10px;
+}
+.TableWrapper::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+}
+
+@media (max-width: 900px) {
+  .Table-table td,
+  .Table-table th {
+    font-size: 12.5px;
+    padding: 6px 10px;
+  }
+}
+@media (max-width: 600px) {
+  .Table-table td,
+  .Table-table th {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+  .MuiTableHead-root th {
+    white-space: nowrap;
+  }
+}
+
+.Table-table th .Title-title {
+  font-size: 13.5px;
+  line-height: 1.2;
+}
+
+@media (max-width: 480px) {
+  .TableFilterCell-cell .MuiInputBase-input {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+}
+
+
+.testWhite{
+  color:#f8fafc !important;
+}
+.css-visczl-MuiTypography-root{
+  color:#f8fafc !important;
+}
+
+
+.css-hwu1hn-MuiButtonBase-root-MuiButton-root{
+  color: white !important;
+}
+
+.css-visczl-MuiTypography-root{
+  color: #686868 !important;
+}
+
+
+.MuiTypography-subtitle1{
+  color: #686868 !important;
+}
+
+.css-13e0ill-MuiTypography-root{
+  color: #686868 !important;
+}

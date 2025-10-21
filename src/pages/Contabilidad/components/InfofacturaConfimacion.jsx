@@ -1,0 +1,57 @@
+import React from 'react'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
+import { tableCellClasses } from '@mui/material/TableCell';
+import { styled } from '@mui/material/styles';
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: "#ffe800",
+        color: "#171718",
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 5,
+    },
+    '&.customWidth': {
+        width: '9px',  // Ajusta el ancho según tus necesidades
+    },
+}));
+
+
+const InfofacturaConfimacion = ({ datafacturas = [] }) => {
+    return (
+        <>
+            {datafacturas.length === 0 ? (<Typography>NO EXISTEN FACTURAS SELECCIONADOS</Typography>) :
+                (<TableContainer component={Paper} >
+                    <Table style={{ margin: '0px 0px 0px 0px' }} >
+                        <TableHead>
+                            <TableRow style={{ backgroundColor: '#ffe800' }}>
+                                <StyledTableCell style={{ fontWeight: 'bold', padding: '6px', fontSize: '12px' }}>Factura del Proveedor</StyledTableCell>
+                                <StyledTableCell style={{ fontWeight: 'bold', padding: '6px', fontSize: '12px' }}>ID del Proveedor</StyledTableCell>
+                                <StyledTableCell style={{ fontWeight: 'bold', padding: '6px', fontSize: '12px' }}>Total</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {datafacturas.length > 0 ? (
+                                datafacturas.map((factura, index) => (
+                                    <TableRow key={index} style={{ backgroundColor: index % 2 === 0 ? '#f9f9f9' : '#e0e0e0' }}>
+                                        <TableCell style={{ padding: '4px', fontSize: '10px' }}>{factura.fact_proveedor}</TableCell>
+                                        <TableCell style={{ padding: '4px', fontSize: '10px' }}>{factura.id_proveedor}</TableCell>
+                                        <TableCell style={{ padding: '4px', fontSize: '10px' }}>{factura.total}</TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={3} style={{ textAlign: 'center', color: 'gray', padding: '10px' }}>
+                                        No hay datos de facturas disponibles
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>)}
+
+        </>
+    )
+}
+
+export default InfofacturaConfimacion
