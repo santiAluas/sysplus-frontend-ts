@@ -172,16 +172,16 @@ const LiquidacionMatriculaComponente = (props) => {
             alertasMensajes(mensaje);
             return 
         }
-        if (imgEspecie === null) {
-            mensaje = "SUBA LA IMAGEN DE LA ESPECIE DE MATRICULA"
-            alertasMensajes(mensaje);
-            return 
-        }
-        if (imgPlaca === null) {
-            mensaje = "SUBA LA IMAGEN DE LA PLACA METALICA"
-            alertasMensajes(mensaje);
-            return 
-        }
+        // if (imgEspecie === null) {
+        //     mensaje = "SUBA LA IMAGEN DE LA ESPECIE DE MATRICULA"
+        //     alertasMensajes(mensaje);
+        //     return 
+        // }
+        // if (imgPlaca === null) {
+        //     mensaje = "SUBA LA IMAGEN DE LA PLACA METALICA"
+        //     alertasMensajes(mensaje);
+        //     return 
+        // }
         let verificarValor = 0
         for (const key in valoresLiquidacion) {
             if (valoresLiquidacion.hasOwnProperty(key)) {
@@ -206,8 +206,13 @@ const LiquidacionMatriculaComponente = (props) => {
             try {
                 await grabarLiquidacion();
                 await enviar_imagenes();
-                await enviar_imagenes_INDIVIDUAL(imgPlaca, anticipo.codAnticipoAura, "IMAGEN PLACA METALICA");
-                await enviar_imagenes_INDIVIDUAL(imgEspecie, anticipo.codAnticipoAura, "IMAGEN PLACA ESPECIE MATRICULA");
+                if(imgPlaca){
+                    await enviar_imagenes_INDIVIDUAL(imgPlaca, anticipo.codAnticipoAura, "IMAGEN PLACA METALICA");
+                }
+                if(imgEspecie){
+                    await enviar_imagenes_INDIVIDUAL(imgEspecie, anticipo.codAnticipoAura, "IMAGEN PLACA ESPECIE MATRICULA");
+                }
+                
                 setOpen(true)
             } catch (error) {
                 throw error;
@@ -253,12 +258,11 @@ const LiquidacionMatriculaComponente = (props) => {
             revicionVehicular: valoresLiquidacion.RevicionVehicular.valor.toString(),
             sticker: valoresLiquidacion.Stiker.valor.toString(),
             certificadoNoAdeuda: valoresLiquidacion.CertificadoNoAdeudar.valor.toString(),
-            pagosExtraordinarios:anticipo.pagosextraordinarios.toString(),
+            pagosExtraordinarios:!anticipo.pagosextraordinarios ? "0" :anticipo.pagosextraordinarios.toString(),
             adicionalValorFactura: valoresLiquidacion.AdicionalValorFactura.valor.toString(),
             gestorVarios: valoresLiquidacion.GestorVarios.valor.toString(),
             gestorGraba: user.User
         }
-        console.groupEnd(New_Liquidacion)
         const resp = await GRABAR_LIQUIDACION(New_Liquidacion);
         setCodigoGeneradoLiquidacion(resp.cod_Liquidacion)
     }
@@ -280,7 +284,8 @@ const LiquidacionMatriculaComponente = (props) => {
     }
 
     const calcularTotal = () => {
-        
+       valorExtraordinario ?? setValorExtraordinario(0);
+
         let total = 0;
         for (const key in valoresLiquidacion) {
              if (valoresLiquidacion.hasOwnProperty(key)) {
@@ -288,7 +293,8 @@ const LiquidacionMatriculaComponente = (props) => {
                  total =total+ parseFloat(liquidacion.valor) ;
              }
         }
-         total = (Math.round(total * 100) / 100)+valorExtraordinario;
+         total = (Math.round(total * 100) / 100)+Number(valorExtraordinario);
+
         setTotalPagado(total)
     }
 

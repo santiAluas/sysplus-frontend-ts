@@ -21,6 +21,7 @@ import InformationMoto from './components/InformationMoto.jsx';
 import KitMotoinformacion from './components/KitMotoinformacion.jsx';
 import CabeceraInventario from './components/CabeceraInventario.jsx';
 import ConfirmDialog from '../../components/TomaInventarioFisicoComp/ConfirmDialog.jsx';
+import { showAlert } from '@/utils/modalAlerts.js';
 const InventarioCiego = () => {
   let navigate = useNavigate();
 
@@ -98,11 +99,15 @@ const InventarioCiego = () => {
     return setActivarObservacionesKit(true)
   }
 
-  const CheckIsKit = () => {
-    setIsKit(prev => !prev)
-    if (isKit === false)
-      setEstadoKit(0)
+ const CheckIsKit = (e, checked) => {
+  setIsKit(checked);
+
+  if (checked) {
+    setEstadoKit(0);
+  } else {
+    setEstadoKit(0); // o lo que corresponda cuando NO es kit
   }
+};
 
   const seleccionarAgenciaYJefeAgencia = (e) => {
     setSeleccionarAgencia(e.target.value)
@@ -184,6 +189,17 @@ const InventarioCiego = () => {
 
   const grabarItem = async () => {
     const error = errores.find(e => e.cond);
+    console.log(codProducto)
+    if(!existProduct && !codProducto ){
+        const configAlert = {
+                            title: "ERROR",
+                            message: "Debe Seleccionar un producto",
+                            type: 'error',
+                            callBackFunction: false,
+                        };
+        showAlert(configAlert);
+        return ;
+    }
     if (error) return toast.error(error.msg, { position: toast.POSITION.TOP_CENTER });
     try {
       const tomaFisicaProducto = new TomaFisicaProducto(
@@ -216,6 +232,7 @@ const InventarioCiego = () => {
 
 
       await SAVE_PRODUCT_INVENTORY(tomaFisicaProducto);
+      setIsKit(false)
       setEsSobrante(false);
       setExistProduct(false);
       InicializarDatos();
@@ -247,7 +264,9 @@ const InventarioCiego = () => {
     setCounterComponent(new Date().getTime())
     setObservacionesKit("")
     setObsActive(false)
-
+    setIsKit(false)
+    CheckIsKit()
+    setCodProducto("")
   }
 
   function generarCodigo() {
@@ -413,12 +432,19 @@ const InventarioCiego = () => {
             <Grid item sm={6}>
               <Stack spacing={3} direction="row">
                 <TextField
-                  id="CANTIDAD BUEN ESTADO"
+                  id="CANTIDAD_BUEN_ESTADO"
                   label="CANTIDAD BUEN ESTADO"
                   variant="standard"
                   value={cantidadBuenEstado}
                   onChange={(e) => setCountProduct(e, setCantidadBuenEstado)}
                   fullWidth
+                  autoComplete="off"
+                  inputProps={{
+                    autoComplete: 'off',
+                    form: {
+                      autoComplete: 'off',
+                    },
+                  }}
                   sx={estiloLaberBuenMalEstado("#4CAF50")}
                 />
                 <TextField
@@ -524,9 +550,12 @@ const InventarioCiego = () => {
             <Grid item xs={6}>
               <FormGroup sx={{ textAlign: 'center', alignItems: "center" }}>
                 <FormControlLabel
-                  required
-                  onChange={CheckIsKit}
-                  control={<Checkbox />}
+                  control={
+                    <Checkbox
+                      checked={isKit}
+                      onChange={CheckIsKit}
+                    />
+                  }
                   label="ES KIT ?"
                 />
                 {isKit && (

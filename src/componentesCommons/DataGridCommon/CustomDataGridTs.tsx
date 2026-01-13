@@ -150,7 +150,7 @@ const CustomDataGridTs = <T,>({
   searchLabel = '',
   widthNumeration = '65px'
 }: Props<T>) => {
-  const [pageSizes] = useState([5, 10, 15]);
+  const [pageSizes] = useState([5, 10, 15, 50]);
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(5);
   const [filters, setFilters] = useState([]);
@@ -243,45 +243,46 @@ const CustomDataGridTs = <T,>({
     );
   };
 
-  const ActionCell = (props: any) => {
-    const { column, row } = props;
+const ActionCell = (props: any) => {
+  const { column, row, value } = props; // ✅ 'value' ya viene de getCellValue
 
-    const columnDef = columnVisible.find(
-      c => c.name === column.name
-    ) as ColumnExtended;
+  const columnDef = columnVisible.find(
+    c => c.name === column.name
+  ) as ColumnExtended;
 
-    const commonStyle = {
-      fontSize: columnDef?.fontSize || '13px',
-      whiteSpace: 'normal',
-      wordWrap: 'break-word',
-      padding: '8px'
-    };
+  const commonStyle = {
+    fontSize: columnDef?.fontSize || '13px',
+    whiteSpace: 'normal',
+    wordWrap: 'break-word',
+    padding: '8px'
+  };
 
-    if (column.name === 'actions') {
-      const filteredActions = actions.filter(action => {
-        if (typeof action.hidden === 'function') {
-          return !action.hidden(row);
-        }
-        return !action.hidden;
-      });
-
-      return (
-        <Table.Cell {...props} style={commonStyle} key={`row-${Math.random()}`}>
-          <ActionColumn row={row} actions={filteredActions} />
-        </Table.Cell>
-      );
-    }
-
-    // Verifica si el valor contiene etiquetas HTML
-    const value = row[column.name];
-    const containsHTML = typeof value === 'string' && /<[a-z][\s\S]*>/i.test(value);
+  // Si fuera columna de acciones, se deja igual
+  if (column.name === 'actions') {
+    const filteredActions = actions.filter(action => {
+      if (typeof action.hidden === 'function') return !action.hidden(row);
+      return !action.hidden;
+    });
 
     return (
       <Table.Cell {...props} style={commonStyle}>
-        {containsHTML ? <RenderHTML html={value} /> : value}
+        <ActionColumn row={row} actions={filteredActions} />
       </Table.Cell>
     );
-  };
+  }
+
+  // ✅ Aquí usamos 'value' (formateado por getCellValue)
+  const cellValue = value;
+  const containsHTML =
+    typeof cellValue === 'string' && /<[a-z][\s\S]*>/i.test(cellValue);
+
+  return (
+    <Table.Cell {...props} style={commonStyle}>
+      {containsHTML ? <RenderHTML html={cellValue} /> : cellValue}
+    </Table.Cell>
+  );
+};
+
 
   const theme = useTheme();
 
@@ -400,9 +401,7 @@ const CustomDataGridTs = <T,>({
               cellComponent={FilterCellComponent}
             />
           )}
-          {hasPagination && (
-            <PagingPanel pageSizes={pageSizes} messages={{ rowsPerPage: '' }} />
-          )}
+        
         </Grid>
       </Paper>
     </ThemeProvider>

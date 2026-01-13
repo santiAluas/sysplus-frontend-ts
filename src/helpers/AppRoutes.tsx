@@ -7,6 +7,7 @@ import { Decrypt_User, Delete_User } from "@/services/Storage_Service";
 import Login from "@/components/Login";
 import { routes } from "@/routes/route";
 import { Index } from "@/pages/Index";
+import RevisionPremiosIndex from "@/pages/RevisionPremios/RevisionPremiosIndex";
 // ⚠️ Usa tu pantalla real de login:
 // import { Dashboard } from "@/pages/Dashboard"; // si lo usas en pages
 
@@ -53,6 +54,7 @@ export default function AppRoutes() {
     return (
       <Routes>
         <Route path="/login" element={<Index />} />
+
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     );

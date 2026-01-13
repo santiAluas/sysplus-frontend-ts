@@ -8,8 +8,8 @@ export const cargarGestoresServiceWeb = (dataGestores: any) =>
       dataGestores
 );
   
-export const generarAnticiposServiceWeb = (factura: string) =>
-  request<string>(
+export const generarAnticiposServiceWeb = (factura: string, cedula: string, valor_pago: string) =>
+  request<boolean>(
     'get',
-    `${EndPointCargarGestion.GENERAR_ANTICIPOS_CABECERA}/${factura}`
+    `${EndPointCargarGestion.GENERAR_ANTICIPOS_CABECERA}/${factura}/${cedula}/${valor_pago}`
   );

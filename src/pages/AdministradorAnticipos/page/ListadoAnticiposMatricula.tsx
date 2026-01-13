@@ -1,6 +1,6 @@
 import CustomDataGridTs from "@/componentesCommons/CustomDataGridTs"
 import { AnticiposConfiguracionColumnas } from "../configurations/AnticiposConfiguracionColumnas"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { anticipoPorLiquidarServiceWeb } from "../services/ServicioWebAnticipoAdministracion"
 import { AnticiposPorLiquidarInDto } from "../models/AnticiposPorLiquidarInDto"
 import FiberNewIcon from '@mui/icons-material/FiberNew';
@@ -21,12 +21,11 @@ const ListadoAnticiposMatricula = () => {
     try{
       startLoading();
       const user: any = Decrypt_User();
-      console.log("user", user)
-      const repuesta = await anticipoPorLiquidarServiceWeb(user?.OrganizationName, user?.User ?? "");
+      
+      const repuesta = await anticipoPorLiquidarServiceWeb( user.User === 'AMANDAGALARZA'? "001-002-ADMINISTRACION" : user?.OrganizationName, user?.User ?? "");
       setAnticipos(repuesta)
     }finally{
       stopLoading();
-
     }
   }
   useEffect(() => {

@@ -29,8 +29,8 @@
 }
 .MuiPaper-root {
   box-shadow:
-    0 8px 20px rgba(0,0,0,0.18),
-    0 16px 40px rgba(0,0,0,0.2) !important;
+    0 2px 5px rgba(0,0,0,0.18),
+    0 4px 10px rgba(0,0,0,0.2) !important;
 }
 
 .titleBasePage{
@@ -282,4 +282,9 @@ table {
 
 .css-13e0ill-MuiTypography-root{
   color: #686868 !important;
+}
+
+
+.css-1xw25gu-MuiButtonBase-root-MuiButton-root{
+  background: white !important;
 }

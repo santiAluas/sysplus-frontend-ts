@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import Grid from '@mui/system/Unstable_Grid';
 import { Box, Button } from '@mui/material';
 import Stack from '@mui/material/Stack';
-import dayjs from 'dayjs';
 import {
     Get_Report_Generate_File_SRI,
     Get_Report_Generate_File_EXCEL,
@@ -22,8 +21,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
-
+import dayjs from '@/utils/dayjs-setup'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -194,7 +192,8 @@ const MatriculacionPage = () => {
             <Grid container spacing={2} columns={16} style={{ display: 'flex', alignItems: 'center' }}>
                 <Grid xs={16} md={8}>
                     <div style={{ with: '100%' }}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es"
+                                        dateLibInstance={dayjs}>
                             <DemoContainer components={['DatePicker', 'DatePicker']} >
                                 <div style={{
                                     display: 'flex',

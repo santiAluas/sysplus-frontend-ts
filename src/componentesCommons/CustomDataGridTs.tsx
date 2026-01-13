@@ -3,7 +3,9 @@ import {
   Column,
   FilteringState,
   IntegratedPaging,
-  PagingState
+  IntegratedSorting,
+  PagingState,
+  SortingState
 } from '@devexpress/dx-react-grid';
 import {
   Grid,
@@ -244,45 +246,53 @@ const CustomDataGridTs = <T,>({
     );
   };
 
-  const ActionCell = (props: any) => {
-    const { column, row } = props;
+const ActionCell = (props: any) => {
+  const { column, row } = props;
 
-    const columnDef = columnVisible.find(
-      c => c.name === column.name
-    ) as ColumnExtended;
+  // ⚡ Obtén el valor ya calculado (respetando getCellValue)
+  const columnConfig = columnVisible.find((c) => c.name === column.name) as Column;
+  const rawValue = row[column.name];
+  const value =
+    typeof columnConfig?.getCellValue === "function"
+      ? columnConfig.getCellValue(row, column.name)
+      : rawValue;
 
-    const commonStyle = {
-      fontSize: columnDef?.fontSize || '13px',
-      whiteSpace: 'normal',
-      wordWrap: 'break-word',
-      padding: '8px'
-    };
+  const columnDef = columnVisible.find(
+    (c) => c.name === column.name
+  ) as ColumnExtended;
 
-    if (column.name === 'actions') {
-      const filteredActions = actions.filter(action => {
-        if (typeof action.hidden === 'function') {
-          return !action.hidden(row);
-        }
-        return !action.hidden;
-      });
+  const commonStyle = {
+    fontSize: columnDef?.fontSize || "13px",
+    whiteSpace: "normal",
+    wordWrap: "break-word",
+    padding: "8px",
+  };
 
-      return (
-        <Table.Cell {...props} style={commonStyle} key={`row-${Math.random()}`}>
-          <ActionColumn row={row} actions={filteredActions} />
-        </Table.Cell>
-      );
-    }
-
-    // Verifica si el valor contiene etiquetas HTML
-    const value = row[column.name];
-    const containsHTML = typeof value === 'string' && /<[a-z][\s\S]*>/i.test(value);
+  // 🔸 Caso especial: columna de acciones
+  if (column.name === "actions") {
+    const filteredActions = actions.filter((action) => {
+      if (typeof action.hidden === "function") return !action.hidden(row);
+      return !action.hidden;
+    });
 
     return (
       <Table.Cell {...props} style={commonStyle}>
-        {containsHTML ? <RenderHTML html={value} /> : value}
+        <ActionColumn row={row} actions={filteredActions} />
       </Table.Cell>
     );
-  };
+  }
+
+  // 🔹 Mostrar el valor ya formateado (getCellValue)
+  const containsHTML =
+    typeof value === "string" && /<[a-z][\s\S]*>/i.test(value);
+
+  return (
+    <Table.Cell {...props} style={commonStyle}>
+      {containsHTML ? <RenderHTML html={value} /> : value}
+    </Table.Cell>
+  );
+};
+
 
   const theme = useTheme();
 
@@ -362,6 +372,44 @@ const CustomDataGridTs = <T,>({
   }, [searchLabel]);
 
 
+
+
+  // 1) Comparadores
+const naturalText = (a?: any, b?: any) =>
+  String(a ?? "").localeCompare(String(b ?? ""), undefined, { numeric: true, sensitivity: "base" });
+
+const asNumber = (v: any) => {
+  if (typeof v === "number") return v;
+  const s = String(v ?? "").trim().replace(/\./g, "").replace(/,/g, "."); // "1.234,56" -> 1234.56
+  const n = Number(s);
+  return Number.isNaN(n) ? Number(v) : n;
+};
+const numCompare = (a: any, b: any) => asNumber(a) - asNumber(b);
+
+const dateCompare = (a: any, b: any) => {
+  const toTs = (x: any) => {
+    if (x instanceof Date) return x.getTime();
+    const iso = Date.parse(String(x ?? ""));
+    if (!Number.isNaN(iso)) return iso;
+    const m = String(x ?? "").match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/); // DD/MM/YYYY
+    return m ? new Date(+m[3], +m[2]-1, +m[1]).getTime() : Number.MIN_SAFE_INTEGER;
+  };
+  return toTs(a) - toTs(b);
+};
+
+// 2) Di cuáles columnas usan cada comparador (pon aquí tus nombres)
+const TEXT_COLS = ["cliente", "agencia", "producto"];
+const NUM_COLS  = ["monto", "saldo", "total"];
+const DATE_COLS = ["fecha", "fechaVenc", "creadoEl"];
+
+// 3) Construye columnExtensions para IntegratedSorting
+const sortingComparators = [
+  ...TEXT_COLS.map(columnName => ({ columnName, compare: naturalText })),
+  ...NUM_COLS.map(columnName  => ({ columnName, compare: numCompare })),
+  ...DATE_COLS.map(columnName => ({ columnName, compare: dateCompare })),
+];
+
+
   return (
       <Paper sx={{ padding: 0, width: '100%' }}>
         <Grid
@@ -369,6 +417,10 @@ const CustomDataGridTs = <T,>({
           columns={columnVisible}
           getRowId={getRowId || (row => (row as any).id)}
         >
+         <SortingState  columnExtensions={[
+      { columnName: 'acciones', sortingEnabled: true }, 
+    ]}/>
+         <IntegratedSorting columnExtensions={sortingComparators}/>
           {hasFilters && (
             <FilteringState
               defaultFilters={[]}
@@ -392,7 +444,7 @@ const CustomDataGridTs = <T,>({
             columnExtensions={columnExtensions}
             messages={{ noData: titleEmptyTable }}
           />
-          <TableHeaderRow cellComponent={CustomHeaderCell} />
+          <TableHeaderRow cellComponent={CustomHeaderCell}  showSortingControls/>
           {hasFilters && (
             <TableFilterRow
               iconComponent={SearchIcon}

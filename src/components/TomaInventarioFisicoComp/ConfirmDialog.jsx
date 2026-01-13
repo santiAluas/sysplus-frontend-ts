@@ -24,7 +24,7 @@ const ConfirmDialog = ({ title, open, setOpen, functionConfirm, functionCancel }
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">
+                <DialogTitle id="alert-dialog-title" sx={{color:'black'}}>
                     {title}
                 </DialogTitle>
                 <DialogActions>

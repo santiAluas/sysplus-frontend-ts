@@ -65,11 +65,45 @@ import AdministrarAnticiposMatriculaIndex from "@/pages/AdministradorAnticipos/A
 import CashBackDeUdaIndex from "@/pages/SubirCashBackDeUdaPage/CashBackDeUdaIndex";
 import ReporteGeneral from "@/pages/ReporteGeneral";
 import IndexSubirInventarioOpen from "@/pages/UploadPlantillaExcel/SubirInventarioOpen/IndexSubirInventarioOpen";
+import CambioCajaMatriculacionIndex from "@/pages/CambioCajaContabilidad/CambioCajaMatriculacionIndex";
+import ReporteLiquidacionContabilidadIndex from "@/pages/ReporteLiquidacionContabilidad/ReporteLiquidacionContabilidadIndex";
+import RecepcionEspeciesMatriculaIndex from "@/pages/RecepcionEspeciesMatricula/RecepcionEspeciesMatriculaIndex";
+import SubirPagosSeriIndex from "@/pages/SubirPagosSri/SubirPagosSeriIndex";
+import SorteoIndex from "@/pages/SorteoMotosAdministracion/SorteoIndex";
+import RevisionPremiosIndex from "@/pages/RevisionPremios/RevisionPremiosIndex";
+import ConfirmarEntregaPremioCliente from "@/pages/RevisionPremios/ConfirmarEntregaPremioCliente";
+import ReporteAuditoriaInventarioIndex from "@/pages/ReporteAuditoriaInventario/ReporteAuditoriaInventarioIndex";
+import ReporteLiquidadosIndex from "@/pages/ReportesMatriculacion/ReporteLiquidadosIndex";
+import ReporteNoLiquidadasIndex from "@/pages/ReportesMatriculacion/ReporteNoLiquidadasIndex";
+import CambioGestorMatriculaIndex from "@/pages/CambioGestorMatricula/CambioGestorMatriculaIndex";
+import ReenviarLiquidacionOpenIndex from "@/pages/Reenviar-Liquidacion/ReenviarLiquidacionOpenIndex";
+import AnularLiquidacionIndex from "@/pages/Reenviar-Liquidacion/AnularLiquidacionIndex";
+import EliminarAnticiposIndex from "@/pages/Reenviar-Liquidacion/EliminarAnticiposIndex";
+import SubirExtraJudicialesExcelIndex from "@/pages/SubirExtraJudiciales/SubirExtraJudicialesExcelIndex";
 
 export const routes = [
   
   { path: "/", element: <Index /> },
   { path: "/subir-inventario-open", element: <IndexSubirInventarioOpen /> },
+  { path: "/premio-mastermoto", element: <RevisionPremiosIndex /> },
+  { path: "/entregar-premio", element: <ConfirmarEntregaPremioCliente />},
+  { path: "/reporte-inventario-fecha", element: <ReporteAuditoriaInventarioIndex />},
+
+  { path: "/reporte-no-liquidados-matricula", element: <ReporteNoLiquidadasIndex />},
+  { path: "/reporte-liquidados-matricula", element: <ReporteLiquidadosIndex />},
+  { path: "/cambiar-gestor-matriculacion", element: <CambioGestorMatriculaIndex />},
+  { path: "/reenviar-liquidacion", element: <ReenviarLiquidacionOpenIndex />},
+  { path: "/anular-liquidacion", element: <AnularLiquidacionIndex />},
+  { path: "/eliminar-cabecera-liquidacion", element: <EliminarAnticiposIndex />},
+  { path: "/subir-cartera-extra-judiciales", element: <SubirExtraJudicialesExcelIndex />},
+
+
+
+
+
+
+
+  { path: "/cambio-fecha-caja", element: <CambioCajaMatriculacionIndex /> },
   { path: "/REGISTER-GARANTIA", element: <RegistroGarantia /> },
   { path: "/ENCUESTA-GARANTIA", element: <EncuestaAura /> },
   { path: "/GRACIAS", element: <GraciasEncuesta /> },
@@ -92,7 +126,10 @@ export const routes = [
   { path: "/upload-gestores", element: <CargarGestionesIndex /> },
   { path: "/gestionar-liquidacion", element: <AdministrarAnticiposMatriculaIndex /> },
   { path: "/subir-cashback-deuna", element: <CashBackDeUdaIndex /> },
-
+  { path: "/subir-pagos-sri", element: <SubirPagosSeriIndex /> },
+  { path: "/receptar-especies-matricula", element: <RecepcionEspeciesMatriculaIndex /> },
+  { path: "/sorteo-tik-tok", element: <SorteoIndex /> },
+  { path: "/reporte-liquidaciones-contabilidad", element: <ReporteLiquidacionContabilidadIndex /> },
   // ====== Claves originales ======
   { path: "/CambioCaja", element: <CambioCaja /> },
   { path: "/Index", element: <Index /> },
@@ -147,6 +184,8 @@ export const routes = [
   { path: "/LiquidacionesTarjetasCredito", element: <LiquidacionesTarjetasCredito /> },
   { path: "/TransformarExtractoExcelToCsv", element: <TransformarExtractoExcelToCsv /> },
   { path: "/UploadImagesCobrax", element: <UploadImagesCobrax /> },
+  { path: "/premios-mastermoto", element: <RevisionPremiosIndex /> },
+
 
   // Reportes Generales
   { path: "/ReporteGeneralAlbaran", element: <ReporteGeneral title="Inventario Albaran" tipoReporte="REPORT_EXCEL_INVENTARIO_ALBARAN" departamento="Contabilidad" /> },

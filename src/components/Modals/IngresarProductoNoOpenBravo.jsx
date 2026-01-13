@@ -32,7 +32,7 @@ const style = {
 };
 const IngresarProductoNoOpenBravo = ({ open, setOpen, titulo, mensaje, user, codigoAgencia, tipoTomaInventario }) => {
     const handleClose = () => setOpen(false);
-    const [cantidad, setCantidad] = useState("")
+    const [cantidad, setCantidad] = useState("1")
     const [descripcion, setDescripcion] = useState("")
     const [motor, setMotor] = useState("")
     const [chasis, setChasis] = useState("")
@@ -128,6 +128,7 @@ const IngresarProductoNoOpenBravo = ({ open, setOpen, titulo, mensaje, user, cod
         return variables.some(variable => valoresAValidar.includes(variable));
     };
     const grabarItem = () => {
+
         if (codigoAgencia === "" || codigoAgencia === 0 || codigoAgencia === "0")
             return toast.warn("DEBE SELECCIONAR UNA AGENCIA", { position: toast.POSITION.TOP_CENTER })
         if (motor.trim() === "" || chasis.trim() === "" ||  descripcion.trim() === ""  || color.trim() === "")
@@ -181,7 +182,6 @@ const IngresarProductoNoOpenBravo = ({ open, setOpen, titulo, mensaje, user, cod
         const functionThatReturnPromise = async () => {
             try {
                 await SAVE_PRODUCT_INVENTORY(tomaFisicaProducto)
-                setCantidad(0);
                 setDescripcion("");
                 setMotor("");
                 setChasis("");
@@ -249,7 +249,8 @@ const IngresarProductoNoOpenBravo = ({ open, setOpen, titulo, mensaje, user, cod
                                 variant="outlined"
                                 value={cantidad}
                                 onChange={(e) => setCountProduct(e)}
-                                fullWidth />
+                                fullWidth
+                                disabled />
                         </Grid>
                         <Grid item sm={6}>
                             {tipoTomaInventario == "1" ? (

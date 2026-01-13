@@ -78,6 +78,8 @@ export  const pages = {
     'ReImprimirAnticipos':<ReImprimirAnticipo/>,
     'ReporteAnticipo':<ReporteAnticipo/>,
     'revisar-imagenes':<ReporteAnticipo/>,
+    'revisar-imagenes':<ReporteAnticipo/>,
+
 
 
     'AuditoriaStockNormal':<AuditoriaStock tipoTomaFisica={2}/>,

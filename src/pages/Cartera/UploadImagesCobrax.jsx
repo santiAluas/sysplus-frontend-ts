@@ -49,7 +49,8 @@ const UploadImagesCobrax = () => {
             console.error("Error en la solicitud:", error);
         }
     };
-
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+    
     const handleSubmit = async () => {
         const updatedImages = getUpdatedImages();
         setIsProcessing(true);
@@ -64,6 +65,7 @@ const UploadImagesCobrax = () => {
         });
         for (const imageData of updatedImages) {
             await uploadImage(imageData);
+            await sleep(6000);
         }
         toast.dismiss();
         toast.success('Proceso completado exitosamente', {

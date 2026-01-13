@@ -20,9 +20,8 @@ const SearchBlobal = ({ parameterSearch,
   return (
     <>
       <ToastContainer />
-      {/* <div style={{ display: 'flex' }}> */}
       <Grid container>
-        <Grid item xs={12} lg={10}>
+        <Grid item xs={12} lg={10} sm={12} sx={12}> 
           <TextField id="standard-basic"
             label={title}
             variant="outlined"
@@ -40,12 +39,13 @@ const SearchBlobal = ({ parameterSearch,
               },
             }}
             fullWidth
+            style={{width: '100%'}}
             onChange={(e) => setParameterSearch(e.target.value)}
             value={parameterSearch}
             onKeyDown={handleKeyDown}
           />
         </Grid>
-        <Grid item xs={12} lg={2}>
+        <Grid item xs={12} lg={2} sm={12}>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-end', padding:2, marginLeft:2 }} >
             <Button 
                     variant="outlined"

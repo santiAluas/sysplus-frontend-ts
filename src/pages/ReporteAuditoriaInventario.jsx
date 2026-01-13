@@ -272,7 +272,7 @@ const ReporteAuditoriaInventario = () => {
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                         >
-                            <Typography fontWeight='bold' color='white' >DESCARGAS INVENTARIO CIEGO </Typography>
+                            <Typography fontWeight='bold' color='white' >DOCUMENTOS INVENTARIO  DESCARGAR </Typography>
                         </AccordionSummary>
                         <AccordionDetails >
                             <Stack direction='column' spacing={2}>
@@ -282,28 +282,28 @@ const ReporteAuditoriaInventario = () => {
                                     startIcon={<PictureAsPdfIcon />}
                                     color="error"
                                     onClick={descargarPDF_CIEGO}
-                                >1. REPORTE CONFORME Y SOBRANTES (REPUESTOS)</Button>
+                                >1. REPORTE GENERAL RPM Y ACCESORIOS</Button>
                                  <Button size="large"
                                     variant="contained"
                                     fullWidth
                                     startIcon={<PictureAsPdfIcon />}
                                     color="error"
                                     onClick={descargarReporteItemsOpen}
-                                >2. REPORTE DE FALTANTES (REPUESTOS)</Button>
+                                >2. INVENTARIO NO CONFIRMADO EN PISO RPM Y ACCESORIOS</Button>
                                  <Button size="large"
                                     variant="contained"
                                     fullWidth
                                     startIcon={<PictureAsPdfIcon />}
                                     color="error"
                                     onClick={descargarReporteItemsConformesMotos}
-                                >3. REPORTE DE FALTANTES (Motos)</Button>
+                                >3. REPORTE DE MOTOCICLETAS</Button>
                                  <Button size="large"
                                     variant="contained"
                                     fullWidth
                                     startIcon={<PictureAsPdfIcon />}
                                     color="error"
                                     onClick={descargarReporteItemsOpenMotos}
-                                >4. REPORTE DE FALTANTES (Motos)</Button>
+                                >4. REPORTE MOTOCICLETAS NO CONFIRMADO EN PISO</Button>
                                 <Button size="large"
                                     variant="contained"
                                     fullWidth 
@@ -318,7 +318,7 @@ const ReporteAuditoriaInventario = () => {
                                     startIcon={<PictureAsPdfIcon />}
                                     color="error"
                                     onClick={(e) => descargarActaAuditoria("ciego")}
-                                >4. GENERAR ACTA</Button>
+                                >5. ACTA ENTREGA RESULTADOS</Button>
                             </Stack>
                         </AccordionDetails>
                     </Accordion>

@@ -100,7 +100,7 @@ export const DOWNLOAD_COUNT_ITEM_INVENTORY = async (agency) => {
   
         const link = document.createElement('a');
         link.href = url;
-        link.download = `REPORTE DE INVENTARIO AGENCIA ${agency} ${dayjs().format('YYYYMMDD')}.pdf`;
+        link.download = `REPORTE GENERAL RPM Y ACCESORIOS ${agency} ${dayjs().format('YYYYMMDD')}.pdf`;
         link.click();
   
         return 'OK: Archivo descargado correctamente.';
@@ -124,7 +124,7 @@ export const DOWNLOAD_COUNT_ITEM_INVENTORY = async (agency) => {
   
         const link = document.createElement('a');
         link.href = url;
-        link.download = `REPORTE DE INVENTARIO AGENCIA ${agency} ${dayjs().format('YYYYMMDD')}.pdf`;
+        link.download = `REPORTE GENERAL RPM Y ACCESORIOS ${agency} ${dayjs().format('YYYYMMDD')}.pdf`;
         link.click();
   
         return 'OK: Archivo descargado correctamente.';
@@ -147,7 +147,7 @@ export const DOWNLOAD_COUNT_ITEM_INVENTORY = async (agency) => {
   
         const link = document.createElement('a');
         link.href = url;
-        link.download = `REPORTE DE INVENTARIO PRODUCTOS NO CONTADOS AGENCIA ${agency} ${dayjs().format('YYYYMMDD')}.pdf`;
+        link.download = `INVENTARIO NO CONFIRMADO EN PISO RPM Y ACCESORIOS ${agency} ${dayjs().format('YYYYMMDD')}.pdf`;
         link.click();
   
         return 'OK: Archivo descargado correctamente.';
@@ -173,7 +173,7 @@ export const DOWNLOAD_COUNT_ITEM_INVENTORY = async (agency) => {
   
         const link = document.createElement('a');
         link.href = url;
-        link.download = `REPORTE DE INVENTARIO PRODUCTOS NO CONTADOS AGENCIA ${agency} ${dayjs().format('YYYYMMDD')}.pdf`;
+        link.download = `REPORTE MOTOCICLETAS NO CONFIRMADO EN PISO ${agency} ${dayjs().format('YYYYMMDD')}.pdf`;
         link.click();
   
         return 'OK: Archivo descargado correctamente.';
@@ -196,7 +196,7 @@ export const DOWNLOAD_COUNT_ITEM_INVENTORY = async (agency) => {
   
         const link = document.createElement('a');
         link.href = url;
-        link.download = `REPORTE DE INVENTARIO PRODUCTOS NO CONTADOS AGENCIA ${agency} ${dayjs().format('YYYYMMDD')}.pdf`;
+        link.download = `REPORTE DE MOTOCICLETAS ${agency} ${dayjs().format('YYYYMMDD')}.pdf`;
         link.click();
   
         return 'OK: Archivo descargado correctamente.';
@@ -245,7 +245,7 @@ export const DOWNLOAD_ACT_DOCUMENT = async (agency, tipoAuditoria) => {
   
         const link = document.createElement('a');
         link.href = url;
-        link.download = `ACTA INVENTARIO ${agency}_${dayjs().format('YYYYMMDD')}.pdf`;
+        link.download = `ACTA ENTREGA RESULTADOS ${agency}_${dayjs().format('YYYYMMDD')}.pdf`;
         link.click();
   
         return 'OK: Archivo descargado correctamente.';

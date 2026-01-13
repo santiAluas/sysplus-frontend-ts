@@ -4,10 +4,13 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Typography } from '@mui/material';
+import dayjs from '@/utils/dayjs-setup'
 const RangoFechas = ({ setDateInit, setDateEnd, dateInit, dateEnd }) => {
   return (
     <div style={{ with: '100%' }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}   
+                adapterLocale="es"
+                dateLibInstance={dayjs}>
                 <DemoContainer components={['DatePicker', 'DatePicker']} >
                     <div style={{ display: 'flex', justifyContent:'left' ,alignItems: 'center', with: '100%', flexWrap: 'wrap' }}>
                         <div  style={{ display: 'flex', 
@@ -22,6 +25,7 @@ const RangoFechas = ({ setDateInit, setDateEnd, dateInit, dateEnd }) => {
                                 value={dateInit}
                                 onChange={(newValue) => setDateInit(newValue)}
                                 format="YYYY-MM-DD"
+                                timezone="America/Guayaquil"
                                 padding={2}
                             />
                         </div>
@@ -37,6 +41,7 @@ const RangoFechas = ({ setDateInit, setDateEnd, dateInit, dateEnd }) => {
                                 value={dateEnd}
                                 padding={2}
                                 format="YYYY-MM-DD"
+                                timezone="America/Guayaquil"
                                 onChange={(newValue) => setDateEnd(newValue)}
                             />
                         </div>

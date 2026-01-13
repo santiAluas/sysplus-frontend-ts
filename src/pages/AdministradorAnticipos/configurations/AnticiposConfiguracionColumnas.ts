@@ -6,7 +6,7 @@ export const AnticiposConfiguracionColumnas = () => {
     const columns = useMemo<Column[]>(
         () => [
             {
-                name: 'codigoanticipo',
+                name: 'codigoAnticipo',
                 title: 'Codigo Anticipo',
                 width: '10%',
                 align: 'center'
@@ -27,7 +27,18 @@ export const AnticiposConfiguracionColumnas = () => {
                 name: 'fecha',
                 title: 'Fecha',
                 width: '10%',
-                align: 'left'
+                align: 'left',
+                getCellValue: (row: any) => {
+                    if (!row.fecha) return "";
+
+                    const date = new Date(row.fecha);
+
+                    return new Intl.DateTimeFormat('es-EC', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    }).format(date);
+                }
             },
             {
                 name: 'gestor',
@@ -42,7 +53,7 @@ export const AnticiposConfiguracionColumnas = () => {
                 align: 'left'
             },
             {
-                name: 'valormatricula',
+                name: 'valorMatricula',
                 title: 'Valor Matricula',
                 width: '10%',
                 align: 'left'

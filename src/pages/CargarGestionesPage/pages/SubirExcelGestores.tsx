@@ -2,31 +2,48 @@ import { useLoading } from '@/componentesCommons/LoadingContext';
 import UploadExcel from '@/componentesCommons/UploadExcel'
 import { cargarGestoresServiceWeb, generarAnticiposServiceWeb } from '../services/CargarGestoresServiciosWeb';
 import { showAlert } from '@/utils/modalAlerts';
+import { useState } from 'react';
 
 const SubirExcelGestores = () => {
 
     const { startLoading, stopLoading } = useLoading();
-
-    const handleFileProcessed = async (data: any[]) => {
-        
+     const handleFileProcessed = async (data: any[]) => {
         startLoading();
         try {
             await cargarGestoresServiceWeb(data);
-            await Promise.all(
-                data.map(element => generarAnticiposServiceWeb(element?.factura))
-            );
-            const configAlert = {
-                title: "Correcto",
-                message: "Los Gestores se grabaron exitosamente. <strong>Se generaron automaticamente las cabeceras anticipo</strong>",
-                type: 'success',
-                callBackFunction: false,
-            };
+            let mensaje = "";
+            for (const item of data) {
+                const respuesta = await obtenerRespuesta(item);
+
+                if (!respuesta) {
+                    mensaje += `Existe un error en la Factura: <strong>${item?.factura}</strong><br/>`
+                }
+            }
+            console.log("mensaje", mensaje)
+            let configAlert = {
+                    title: "Correcto",
+                    message: "Los Gestores se grabaron exitosamente. <strong>Se generaron automaticamente las cabeceras anticipo</strong>",
+                    type: 'success',
+                    callBackFunction: false,
+                    onCloseFunction: () => {}
+                };
+            if (mensaje){
+                configAlert.title = 'Error';
+                configAlert.type = 'error';
+                configAlert.message = mensaje;
+                configAlert.callBackFunction = false;
+            }
             showAlert(configAlert);
         } finally {
             stopLoading();
         }
     };
 
+    const obtenerRespuesta = async (element: any) =>{
+        const respuesta = await  generarAnticiposServiceWeb(element?.factura, element?.cedula_gestor, element?.valor_pago);
+        console.log("first----------", respuesta)
+        return respuesta;
+    }
   return (
     <>
         <UploadExcel legend="Subir gestores en formato Excel"

@@ -1,13 +1,13 @@
-import React from 'react'
 import RangoFechas from '../components/RangoFechas'
 import { Box, Button } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import dayjs from 'dayjs';
 import { Get_Report_Ventas } from '../services/Service_Api_Reportes'
 import { ToastContainer, toast } from 'react-toastify'; 
+import { useState } from 'react';
 const ReporteAtimComercial = () => {
-    const [dateInit, setDateInit] = React.useState(dayjs().subtract(5, 'day'));
-    const [dateEnd, setDateEnd] = React.useState(dayjs());
+    const [dateInit, setDateInit] = useState(dayjs().subtract(5, 'day'));
+    const [dateEnd, setDateEnd] = useState(dayjs());
   
     const descargarReporteCobros = async (e) =>{
         e.preventDefault()

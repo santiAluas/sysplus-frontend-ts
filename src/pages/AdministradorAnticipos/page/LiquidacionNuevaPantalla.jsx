@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Paper } from '@mui/material';
 import InformacionFactura from '@/components/LiquidacionMatricula/InformacionFactura';
 import LiquidacionMatriculaComponente from '@/components/LiquidacionMatricula/LiquidacionMatriculaComponente';
