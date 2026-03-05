@@ -219,7 +219,6 @@ export default function SidebarLayout({
                             sx={{
                               opacity: isCompact ? 0 : 1,
                               visibility: isCompact ? "hidden" : "visible",
-                              whiteSpace: "nowrap",
 
                             }}
                           />

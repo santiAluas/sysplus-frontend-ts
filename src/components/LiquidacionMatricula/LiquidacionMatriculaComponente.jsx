@@ -1,5 +1,5 @@
 import { Box, Button, Grid, InputAdornment, TextField, Typography } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search';
 import PagosLiquidacionComponente from './PagosLiquidacionComponente';
 import { ToastContainer, toast } from 'react-toastify';
@@ -55,17 +55,18 @@ const LiquidacionMatriculaComponente = (props) => {
 
 
     const { numeroIdentificacion, numeroFacturaGrabar, ramv, setKeyComponent } = props
-    const [codigoAnticipo, setCodigoAnticipo] = React.useState("")
-    const [valorExtraordinario, setValorExtraordinario] = React.useState(0)
-    const [imgPlaca, setImgPlaca] = React.useState(null)
-    const [imgEspecie, setImgEspecie] = React.useState(null)
+    const [codigoAnticipo, setCodigoAnticipo] = useState("")
+    const [valorExtraordinario, setValorExtraordinario] = useState(0)
+    const [imgPlaca, setImgPlaca] = useState(null)
+    const [imgEspecie, setImgEspecie] = useState(null)
 
-    const [open, setOpen] = React.useState(false);
-    const [codigoGeneradoLiquidacion, setCodigoGeneradoLiquidacion] = React.useState("")
-    const [anticipo, setAnticipo] = React.useState(anticipoEncerado)
-    const [modificacion, setmodificcion] = React.useState(0)
-    const [totalPagado, setTotalPagado] = React.useState(0)
+    const [open, setOpen] = useState(false);
+    const [codigoGeneradoLiquidacion, setCodigoGeneradoLiquidacion] = useState("")
+    const [anticipo, setAnticipo] = useState(anticipoEncerado)
+    const [modificacion, setmodificcion] = useState(0)
+    const [totalPagado, setTotalPagado] = useState(0)
 
+   
     const style = {
         position: 'absolute',
         top: '50%',
@@ -102,10 +103,10 @@ const LiquidacionMatriculaComponente = (props) => {
             const respuesta = await SEARCH_ANTICIPO(codigoAnticipoParametro ?? codigoAnticipo, numeroIdentificacion, numeroFacturaGrabar);
             if (respuesta.length > 0) {
                 setAnticipo(respuesta[0]);
-                valoresLiquidacion.PagosExtraordinarios.valor = respuesta[0].pagosextraordinarios
+                //valoresLiquidacion.PagosExtraordinarios.valor = respuesta[0].pagosextraordinarios
                 setValoresLiquidacion(valoresLiquidacion)
-                anticipo.pagosextraordinarios = respuesta[0].pagosextraordinarios
-                setValorExtraordinario(respuesta[0].pagosextraordinarios)
+               // anticipo.pagosextraordinarios = respuesta[0].pagosextraordinarios
+              //  setValorExtraordinario(respuesta[0].pagosextraordinarios)
                 calcularTotal()
             } else {
                 setAnticipo(anticipoEncerado);
@@ -186,14 +187,10 @@ const LiquidacionMatriculaComponente = (props) => {
         for (const key in valoresLiquidacion) {
             if (valoresLiquidacion.hasOwnProperty(key)) {
                 const liquidacion = valoresLiquidacion[key];
-                if (key !=="PagosExtraordinarios"){
                     if (liquidacion.valor > 0 && liquidacion.file === null) {
                         return toast.warn("PORFAVOR VERIFIQUE QUE TODOS LOS VALORES TENGAN SUS RESPECTIVAS IMAGENES", { position: toast.POSITION.TOP_CENTER });
                     }
-                    if (liquidacion.tipoLiquidacion !== 'PAGOS EXTRAORDINARIOS') {
                         verificarValor += liquidacion.valor
-                    }
-                }
             }
         }
         verificarValor += anticipo.pagosextraordinarios
@@ -258,11 +255,12 @@ const LiquidacionMatriculaComponente = (props) => {
             revicionVehicular: valoresLiquidacion.RevicionVehicular.valor.toString(),
             sticker: valoresLiquidacion.Stiker.valor.toString(),
             certificadoNoAdeuda: valoresLiquidacion.CertificadoNoAdeudar.valor.toString(),
-            pagosExtraordinarios:!anticipo.pagosextraordinarios ? "0" :anticipo.pagosextraordinarios.toString(),
+            pagosExtraordinarios:valoresLiquidacion.PagosExtraordinarios.valor.toString()  ,
             adicionalValorFactura: valoresLiquidacion.AdicionalValorFactura.valor.toString(),
             gestorVarios: valoresLiquidacion.GestorVarios.valor.toString(),
             gestorGraba: user.User
         }
+
         const resp = await GRABAR_LIQUIDACION(New_Liquidacion);
         setCodigoGeneradoLiquidacion(resp.cod_Liquidacion)
     }
@@ -307,12 +305,12 @@ const LiquidacionMatriculaComponente = (props) => {
 
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         calcularTotal()
     }, [valoresLiquidacion, totalPagado, modificacion, setmodificcion]);
 
 
-
+     
     const modalDocumentoAnticipo = () => {
         return (<div>
             <Modal
@@ -327,7 +325,7 @@ const LiquidacionMatriculaComponente = (props) => {
                             height={80}
                             alt='logo de la empresa master moto'></img>
                     </div>
-                    <Typography id="modal-modal-title" variant="h6" component="h2" align='center'>
+                    <Typography id="modal-modal-title" variant="h6" component="h2" align='center' color='black'>
                         CODIGO LIQUIDACION: {codigoGeneradoLiquidacion}
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 }}>

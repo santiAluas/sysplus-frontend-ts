@@ -189,7 +189,6 @@ const InventarioCiego = () => {
 
   const grabarItem = async () => {
     const error = errores.find(e => e.cond);
-    console.log(codProducto)
     if(!existProduct && !codProducto ){
         const configAlert = {
                             title: "ERROR",

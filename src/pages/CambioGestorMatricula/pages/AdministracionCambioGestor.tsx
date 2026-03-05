@@ -38,7 +38,6 @@ const AdministracionCambioGestor = () => {
     }
 
     const onChanceGestor = (value:InformacionGestores ) =>{
-        console.log(value)
         setGestorSeleccionado(value)
     }
 

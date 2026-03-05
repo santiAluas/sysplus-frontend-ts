@@ -19,7 +19,6 @@ const SubirExcelGestores = () => {
                     mensaje += `Existe un error en la Factura: <strong>${item?.factura}</strong><br/>`
                 }
             }
-            console.log("mensaje", mensaje)
             let configAlert = {
                     title: "Correcto",
                     message: "Los Gestores se grabaron exitosamente. <strong>Se generaron automaticamente las cabeceras anticipo</strong>",
@@ -41,7 +40,6 @@ const SubirExcelGestores = () => {
 
     const obtenerRespuesta = async (element: any) =>{
         const respuesta = await  generarAnticiposServiceWeb(element?.factura, element?.cedula_gestor, element?.valor_pago);
-        console.log("first----------", respuesta)
         return respuesta;
     }
   return (

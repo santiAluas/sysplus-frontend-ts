@@ -153,23 +153,22 @@ const MatriculacionPage = () => {
         return (dataReporte.length > 0 ? (
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>CAMVPN</TableCell>
-                            <TableCell align="center">CIUDAD</TableCell>
-                            <TableCell align="center">FECHA ACTUALIZACION</TableCell>
-                            <TableCell align="center">FECHA INGRESO</TableCell>
-                            <TableCell align="center">FECHA VENTA</TableCell>
-                            <TableCell align="center">VALOR</TableCell>
-                        </TableRow>
-                    </TableHead>
+                   <TableHead>
+  <TableRow>
+    <TableCell align="left">CAMVPN</TableCell>
+    <TableCell align="center">CIUDAD</TableCell>
+    <TableCell align="center">FECHA ACTUALIZACION</TableCell>
+    <TableCell align="center">FECHA INGRESO</TableCell>
+    <TableCell align="center">FECHA VENTA</TableCell>
+    <TableCell align="right">VALOR</TableCell>
+  </TableRow>
+</TableHead>
                     <TableBody>
                         {dataReporte.map((row) => (
                             <TableRow
                                 key={row.campVpn}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
-                                <TableCell component="th" scope="row">
+                                <TableCell >
                                     {row.campVpn}
                                 </TableCell>
                                 <TableCell align="center">{row.ciudad}</TableCell>

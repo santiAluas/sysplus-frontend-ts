@@ -1,9 +1,11 @@
-import React from 'react';
+import  { useEffect, useRef, useState } from 'react';
 import { Button, Grid, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
+import { Decrypt_User } from '@/services/Storage_Service';
+import { estaHabilitadoElUsuario } from '@/pages/AdministradorAnticipos/services/ServicioWebAnticipoAdministracion';
 const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
     clipPath: 'inset(50%)',
@@ -18,8 +20,9 @@ const VisuallyHiddenInput = styled('input')({
 
 const SubirValores = (props) => {
     const { titulo, liquidacion, setmodificcion, pagosExtraordinario = 0 } = props;
-    const [selectedImage, setSelectedImage] = React.useState(null);
-    const [valor, setValores] = React.useState(0)
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [valor, setValores] = useState(0)
+    const [estaHabilitado, setEstaHabilitado] = useState(false);
     
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -71,13 +74,25 @@ const SubirValores = (props) => {
       };
 
 
-      React.useEffect(() => {
+    useEffect(() => {
         modificarValor(valor)
     }, [valor, setValores,pagosExtraordinario]);
 
+    const yaEjecutado = useRef(false);
 
+    useEffect(() => {
+    if (yaEjecutado.current) return;
+    yaEjecutado.current = true;
 
+    verificarEstaHabilitado();
+    }, []);
     
+    const verificarEstaHabilitado = async () => {
+        const user = Decrypt_User();
+        const respuesta = await estaHabilitadoElUsuario(user.User);
+        console.log("respuesta", respuesta)
+        setEstaHabilitado(respuesta)
+    }
 
     return (
         <Grid container paddingTop={2} style={{display:'flex',justifyContent:'center', alignItems:'center'}}>
@@ -93,8 +108,8 @@ const SubirValores = (props) => {
                     label=""
                     variant="standard"
                     type='number'
-                    value={(titulo === "Pagos Extraordinarios" ? pagosExtraordinario : valor )  }
-                    disabled={(titulo === "Pagos Extraordinarios" ? true :  false)  }
+                    value={valor}
+                    disabled={(titulo === "Pagos Extraordinarios" && !estaHabilitado )}
                     onBlur={(e) => handleBlur(e.target.value)} 
                     onChange={(e) => setValores(e.target.value)}
                 />

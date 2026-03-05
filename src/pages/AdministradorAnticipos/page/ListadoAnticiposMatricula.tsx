@@ -1,7 +1,7 @@
 import CustomDataGridTs from "@/componentesCommons/CustomDataGridTs"
 import { AnticiposConfiguracionColumnas } from "../configurations/AnticiposConfiguracionColumnas"
 import React, { useEffect, useState } from "react"
-import { anticipoPorLiquidarServiceWeb } from "../services/ServicioWebAnticipoAdministracion"
+import { anticipoPorLiquidarServiceWeb, estaHabilitadoElUsuario } from "../services/ServicioWebAnticipoAdministracion"
 import { AnticiposPorLiquidarInDto } from "../models/AnticiposPorLiquidarInDto"
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import { IActionConfig } from "@/componentesCommons/IActionConfig"
@@ -15,8 +15,7 @@ const ListadoAnticiposMatricula = () => {
   const [numeroFactura, setNumeroFactura] = useState<string>(null);
   const [abrirModal, setAbrirModal] = useState<boolean>(false);
   const { startLoading, stopLoading } = useLoading();
-
-
+  
   const cargarAnticipo = async () =>{
     try{
       startLoading();

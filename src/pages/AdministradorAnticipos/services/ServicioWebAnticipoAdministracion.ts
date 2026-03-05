@@ -7,3 +7,11 @@ export const anticipoPorLiquidarServiceWeb = (organizacion: string, parametros: 
     'get',
     `${EndpointAnticiposAdminstracion.CARGAR_ANTICIPO_POR_LIQUIDAR}?agencia=${organizacion}&parametroGestor=${parametros}`
   );
+
+  export const estaHabilitadoElUsuario = (username: string) =>
+  request<boolean>(
+    'get',
+    `${EndpointAnticiposAdminstracion.ESTA_HABILITADO_PARA_PAGOS}/${username}`
+  );
+
+  

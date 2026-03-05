@@ -80,6 +80,8 @@ import ReenviarLiquidacionOpenIndex from "@/pages/Reenviar-Liquidacion/ReenviarL
 import AnularLiquidacionIndex from "@/pages/Reenviar-Liquidacion/AnularLiquidacionIndex";
 import EliminarAnticiposIndex from "@/pages/Reenviar-Liquidacion/EliminarAnticiposIndex";
 import SubirExtraJudicialesExcelIndex from "@/pages/SubirExtraJudiciales/SubirExtraJudicialesExcelIndex";
+import ReporteCashBackDeUnaIndex from "@/pages/ReporteCashBackDeUna/ReporteCashBackDeUnaIndex";
+import AutorizarPagosExtraordinariosMatriculacionIndex from "@/pages/AutorizarPagosExtraordinariosMatriculacion/AutorizarPagosExtraordinariosMatriculacionIndex";
 
 export const routes = [
   
@@ -88,6 +90,8 @@ export const routes = [
   { path: "/premio-mastermoto", element: <RevisionPremiosIndex /> },
   { path: "/entregar-premio", element: <ConfirmarEntregaPremioCliente />},
   { path: "/reporte-inventario-fecha", element: <ReporteAuditoriaInventarioIndex />},
+  { path: "/crud-usuarios-pagos-extraordinarios", element: <AutorizarPagosExtraordinariosMatriculacionIndex />},
+
 
   { path: "/reporte-no-liquidados-matricula", element: <ReporteNoLiquidadasIndex />},
   { path: "/reporte-liquidados-matricula", element: <ReporteLiquidadosIndex />},
@@ -96,11 +100,7 @@ export const routes = [
   { path: "/anular-liquidacion", element: <AnularLiquidacionIndex />},
   { path: "/eliminar-cabecera-liquidacion", element: <EliminarAnticiposIndex />},
   { path: "/subir-cartera-extra-judiciales", element: <SubirExtraJudicialesExcelIndex />},
-
-
-
-
-
+  { path: "/descargar-reporte-excel-cash-back-deUna", element: <ReporteCashBackDeUnaIndex />},
 
 
   { path: "/cambio-fecha-caja", element: <CambioCajaMatriculacionIndex /> },
