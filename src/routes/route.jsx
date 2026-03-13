@@ -82,6 +82,7 @@ import EliminarAnticiposIndex from "@/pages/Reenviar-Liquidacion/EliminarAnticip
 import SubirExtraJudicialesExcelIndex from "@/pages/SubirExtraJudiciales/SubirExtraJudicialesExcelIndex";
 import ReporteCashBackDeUnaIndex from "@/pages/ReporteCashBackDeUna/ReporteCashBackDeUnaIndex";
 import AutorizarPagosExtraordinariosMatriculacionIndex from "@/pages/AutorizarPagosExtraordinariosMatriculacion/AutorizarPagosExtraordinariosMatriculacionIndex";
+import SubirPcrsIndex from "@/pages/SubiPcr/SubirPcrsIndex";
 
 export const routes = [
   
@@ -89,8 +90,11 @@ export const routes = [
   { path: "/subir-inventario-open", element: <IndexSubirInventarioOpen /> },
   { path: "/premio-mastermoto", element: <RevisionPremiosIndex /> },
   { path: "/entregar-premio", element: <ConfirmarEntregaPremioCliente />},
-  { path: "/reporte-inventario-fecha", element: <ReporteAuditoriaInventarioIndex />},
+  { path: "/reporte-inventario-fecha", element: <ReporteAuditoriaInventarioIndex />}, 
   { path: "/crud-usuarios-pagos-extraordinarios", element: <AutorizarPagosExtraordinariosMatriculacionIndex />},
+
+  { path: "/subir-pcrs", element: <SubirPcrsIndex />},
+
 
 
   { path: "/reporte-no-liquidados-matricula", element: <ReporteNoLiquidadasIndex />},
