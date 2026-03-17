@@ -8,7 +8,6 @@ const StyledHTML = styled('div')({
     '& em': {
         fontStyle: 'italic',
     },
-    // Añade más estilos según necesites
 });
 
 interface RenderHTMLProps {
@@ -16,7 +15,8 @@ interface RenderHTMLProps {
 }
 
 const RenderHTML: React.FC<RenderHTMLProps> = ({ html }) => {
-    return <StyledHTML dangerouslySetInnerHTML={{ __html: html }} />;
+    const sanitizedHtml = `<meta charset="UTF-8">${html}`;
+    return <StyledHTML dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />;
 };
 
 export default RenderHTML;

@@ -83,6 +83,7 @@ import SubirExtraJudicialesExcelIndex from "@/pages/SubirExtraJudiciales/SubirEx
 import ReporteCashBackDeUnaIndex from "@/pages/ReporteCashBackDeUna/ReporteCashBackDeUnaIndex";
 import AutorizarPagosExtraordinariosMatriculacionIndex from "@/pages/AutorizarPagosExtraordinariosMatriculacion/AutorizarPagosExtraordinariosMatriculacionIndex";
 import SubirPcrsIndex from "@/pages/SubiPcr/SubirPcrsIndex";
+import FormularioAtmIndex from "@/pages/FormularioAtm/FormularioAtmIndex";
 
 export const routes = [
   
@@ -94,7 +95,7 @@ export const routes = [
   { path: "/crud-usuarios-pagos-extraordinarios", element: <AutorizarPagosExtraordinariosMatriculacionIndex />},
 
   { path: "/subir-pcrs", element: <SubirPcrsIndex />},
-
+  { path: "/descargar-reporte-atm", element: <FormularioAtmIndex />},
 
 
   { path: "/reporte-no-liquidados-matricula", element: <ReporteNoLiquidadasIndex />},
