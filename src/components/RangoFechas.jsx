@@ -1,55 +1,76 @@
-import React from 'react'
+import React from 'react';
+import dayjs from '@/utils/dayjs-setup';
+
+import { Box, Typography, Grid } from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { Typography } from '@mui/material';
-import dayjs from '@/utils/dayjs-setup'
+
 const RangoFechas = ({ setDateInit, setDateEnd, dateInit, dateEnd }) => {
   return (
-    <div style={{ with: '100%' }}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}   
-                adapterLocale="es"
-                dateLibInstance={dayjs}>
-                <DemoContainer components={['DatePicker', 'DatePicker']} >
-                    <div style={{ display: 'flex', justifyContent:'left' ,alignItems: 'center', with: '100%', flexWrap: 'wrap' }}>
-                        <div  style={{ display: 'flex', 
-                                       justifyContent:'center', 
-                                       alignItems: 'center', 
-                                       with: '100%',
-                                       marginTop:"10px" }}>
-                            <Typography fontWeight="bold" padding={2}>
-                                SELECCIONE FECHA INICIO
-                            </Typography>
-                            <DatePicker label="FECHA INICIO"
-                                value={dateInit}
-                                onChange={(newValue) => setDateInit(newValue)}
-                                format="YYYY-MM-DD"
-                                timezone="America/Guayaquil"
-                                padding={2}
-                            />
-                        </div>
-                        <div style={{ display: 'flex', 
-                                      alignItems: 'center', 
-                                      with: '100%',
-                                      marginTop:"10px" }}>
-                            <Typography fontWeight="bold" padding={2}>
-                                SELECCIONE FECHA FINAL
-                            </Typography>
-                            <DatePicker
-                                label="FECHA CAMBIO"
-                                value={dateEnd}
-                                padding={2}
-                                format="YYYY-MM-DD"
-                                timezone="America/Guayaquil"
-                                onChange={(newValue) => setDateEnd(newValue)}
-                            />
-                        </div>
-                    </div>
-                </DemoContainer>
-            </LocalizationProvider>
-        </div>
-    )
-}
+    <Box sx={{ width: '100%' }}>
+      <LocalizationProvider
+        dateAdapter={AdapterDayjs}
+        adapterLocale="es"
+        dateLibInstance={dayjs}
+      >
+        <DemoContainer components={['DatePicker', 'DatePicker']}>
+          <Grid container spacing={2}>
+            
+            {/* FECHA INICIO */}
+            <Grid item xs={12} md={6}>
+              <Typography
+                fontWeight="600"
+                sx={{ mb: 0.5, color: 'text.secondary' }}
+              >
+                Fecha de inicio del período
+              </Typography>
 
-export default RangoFechas
+              <DatePicker
+                label="Selecciona la fecha inicial"
+                value={dateInit}
+                onChange={(newValue) => setDateInit(newValue)}
+                format="YYYY-MM-DD"
+                timezone="America/Guayaquil"
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    size: 'small',
+                  },
+                }}
+              />
+            </Grid>
+
+            {/* FECHA FIN */}
+            <Grid item xs={12} md={6}>
+              <Typography
+                fontWeight="600"
+                sx={{ mb: 0.5, color: 'text.secondary' }}
+              >
+                Fecha de fin del período
+              </Typography>
+
+              <DatePicker
+                label="Selecciona la fecha final"
+                value={dateEnd}
+                onChange={(newValue) => setDateEnd(newValue)}
+                format="YYYY-MM-DD"
+                timezone="America/Guayaquil"
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    size: 'small',
+                  },
+                }}
+              />
+            </Grid>
+
+          </Grid>
+        </DemoContainer>
+      </LocalizationProvider>
+    </Box>
+  );
+};
+
+export default RangoFechas;

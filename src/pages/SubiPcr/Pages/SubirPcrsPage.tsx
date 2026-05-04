@@ -8,7 +8,7 @@ const SubirPcrsPage = () => {
   const { startLoading, stopLoading } = useLoading();
   const grabarPcs = async (items: any[]) => {
     try {
-      stopLoading();
+      startLoading();
       const data = items.map((item) => ({
         tipoCliente: item["Tipo de Cliente"],
         categoriaProducto: item["Categoría del producto"],

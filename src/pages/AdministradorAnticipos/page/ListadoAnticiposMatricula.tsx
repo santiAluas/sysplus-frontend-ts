@@ -15,13 +15,15 @@ const ListadoAnticiposMatricula = () => {
   const [numeroFactura, setNumeroFactura] = useState<string>(null);
   const [abrirModal, setAbrirModal] = useState<boolean>(false);
   const { startLoading, stopLoading } = useLoading();
+
+  const usuariosAdministracion = ["AMANDAGALARZA", "JOSUEORDONEZ", "KARENSINCHI"]
   
   const cargarAnticipo = async () =>{
     try{
       startLoading();
       const user: any = Decrypt_User();
       
-      const repuesta = await anticipoPorLiquidarServiceWeb( user.User === 'AMANDAGALARZA'? "001-002-ADMINISTRACION" : user?.OrganizationName, user?.User ?? "");
+      const repuesta = await anticipoPorLiquidarServiceWeb( usuariosAdministracion.includes(user.User)? "001-002-ADMINISTRACION" : user?.OrganizationName, user?.User ?? "");
       setAnticipos(repuesta)
     }finally{
       stopLoading();
@@ -67,7 +69,7 @@ const ListadoAnticiposMatricula = () => {
         <CustomModalTs  open={abrirModal} 
                         handleClose={() => setAbrirModal(prev => !prev)}
                         width="80%" height="100%">
-          <LiquidacionNuevaPantalla numeroDocumento={numeroFactura}/>
+          <LiquidacionNuevaPantalla numeroDocumento={numeroFactura ?? ""}/>
         </CustomModalTs>
     </>
   )

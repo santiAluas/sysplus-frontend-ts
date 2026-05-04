@@ -84,6 +84,9 @@ import ReporteCashBackDeUnaIndex from "@/pages/ReporteCashBackDeUna/ReporteCashB
 import AutorizarPagosExtraordinariosMatriculacionIndex from "@/pages/AutorizarPagosExtraordinariosMatriculacion/AutorizarPagosExtraordinariosMatriculacionIndex";
 import SubirPcrsIndex from "@/pages/SubiPcr/SubirPcrsIndex";
 import FormularioAtmIndex from "@/pages/FormularioAtm/FormularioAtmIndex";
+import DescargarCobrosOriginalesIndex from "@/pages/TarjetasCreditoRefactor/DescargarCobrosOriginalesIndex";
+import SubirLiquidacionesCT from "@/pages/TarjetasCreditoRefactor/SubirLiquidacionesCT";
+import TarjetasCreditoCT from "@/pages/TarjetasCreditoRefactor/TarjetasCreditoCT";
 
 export const routes = [
   
@@ -95,6 +98,12 @@ export const routes = [
   { path: "/crud-usuarios-pagos-extraordinarios", element: <AutorizarPagosExtraordinariosMatriculacionIndex />},
 
   { path: "/subir-pcrs", element: <SubirPcrsIndex />},
+
+  { path: "/descargar-cobros-originales", element: <DescargarCobrosOriginalesIndex />},
+  { path: "/subir-liquidaciones-tarjeta-creditos", element: <SubirLiquidacionesCT />},
+  { path: "/subir-cobros-originales", element: <TarjetasCreditoCT />},
+
+
   { path: "/descargar-reporte-atm", element: <FormularioAtmIndex />},
 
 

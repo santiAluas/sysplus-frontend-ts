@@ -13,10 +13,10 @@ const SubirExcelGestores = () => {
             await cargarGestoresServiceWeb(data);
             let mensaje = "";
             for (const item of data) {
-                const respuesta = await obtenerRespuesta(item);
+                const respuesta:string = await obtenerRespuesta(item);
 
-                if (!respuesta) {
-                    mensaje += `Existe un error en la Factura: <strong>${item?.factura}</strong><br/>`
+                if (respuesta.includes("ERROR")) {
+                    mensaje += respuesta + "<br/>"
                 }
             }
             let configAlert = {
@@ -39,7 +39,7 @@ const SubirExcelGestores = () => {
     };
 
     const obtenerRespuesta = async (element: any) =>{
-        const respuesta = await  generarAnticiposServiceWeb(element?.factura, element?.cedula_gestor, element?.valor_pago);
+        const respuesta:string = await  generarAnticiposServiceWeb(element?.factura, element?.cedula_gestor, element?.valor_pago);
         return respuesta;
     }
   return (
