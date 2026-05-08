@@ -90,7 +90,6 @@ const SubirValores = (props) => {
     const verificarEstaHabilitado = async () => {
         const user = Decrypt_User();
         const respuesta = await estaHabilitadoElUsuario(user.User);
-        console.log("respuesta", respuesta)
         setEstaHabilitado(respuesta)
     }
 

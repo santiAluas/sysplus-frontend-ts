@@ -23,11 +23,10 @@ const TarjetasCreditoCTPage = () => {
                 usuario1: item["usuario_1"],
                 totalCoutas: item["total_cuotas"],
             }));
-            console.log("first", data)
             await subirCobrosOriginales(data);
             const configAlert = {
                 title: "Correcto",
-                message: "Los. <strong>COBROS ORIGINALES's</strong>, se subieron exitosamente",
+                message: "Los. <strong>COBROS ORIGINALES</strong>, se subieron exitosamente",
                 type: 'success',
                 callBackFunction: true,
             };

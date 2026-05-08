@@ -20,7 +20,6 @@ const SubirLiquidacionesCTPage = () => {
                 retencionIva: item["retencion_iva"],
                 retencionFte: item["retencion_fte"],
             }));
-            console.log("first", data)
             await subirLiquidacionesTarjetasServicioWeb(data);
             const configAlert = {
                 title: "Correcto",

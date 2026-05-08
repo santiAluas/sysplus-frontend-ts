@@ -87,6 +87,7 @@ import FormularioAtmIndex from "@/pages/FormularioAtm/FormularioAtmIndex";
 import DescargarCobrosOriginalesIndex from "@/pages/TarjetasCreditoRefactor/DescargarCobrosOriginalesIndex";
 import SubirLiquidacionesCT from "@/pages/TarjetasCreditoRefactor/SubirLiquidacionesCT";
 import TarjetasCreditoCT from "@/pages/TarjetasCreditoRefactor/TarjetasCreditoCT";
+import CambioNumeroComprobanteIndex from "@/pages/CarteraModulo/CambioNumeroComprobantePages/CambioNumeroComprobanteIndex";
 
 export const routes = [
   
@@ -96,6 +97,8 @@ export const routes = [
   { path: "/entregar-premio", element: <ConfirmarEntregaPremioCliente />},
   { path: "/reporte-inventario-fecha", element: <ReporteAuditoriaInventarioIndex />}, 
   { path: "/crud-usuarios-pagos-extraordinarios", element: <AutorizarPagosExtraordinariosMatriculacionIndex />},
+  { path: "/cambio-numero-comprobante", element: <CambioNumeroComprobanteIndex />},
+
 
   { path: "/subir-pcrs", element: <SubirPcrsIndex />},
 
