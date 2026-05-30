@@ -1,5 +1,10 @@
 const CiudadesLista=[
   { "id": "Quito", "descripcion": "Quito" },
+  { "id": "Troncal", "descripcion": "Troncal" },
+  { "id": "Buena Fe", "descripcion": "Buena Fe" },
+
+
+  { "id": "Pastaza", "descripcion": "Pastaza" },
   { "id": "Guayaquil", "descripcion": "Guayaquil" },
   { "id": "Cuenca", "descripcion": "Cuenca" },
   { "id": "Santo Domingo", "descripcion": "Santo Domingo" },

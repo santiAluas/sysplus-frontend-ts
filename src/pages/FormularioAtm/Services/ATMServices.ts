@@ -2,12 +2,14 @@ import { request } from "@/utils/AxiosUtils";
 import ATMEndPoint from "./ATMEndPoint";
 import Opciones from "../models/Opciones";
 import OpcionesList from "../models/OpcionesList";
+import ReporteAtmOutDto from "../models/ReporteAtmOutDto";
 
 
-export const VizualizarHtml = (codigoPlantilla: String, ramv: String, ciudad: String, usuario: string) =>
+export const VizualizarHtml = (plantilla: ReporteAtmOutDto) =>
     request<string>(
-      'get',
-      `${ATMEndPoint.VIZUALIZAR_HTML_ATM}/${codigoPlantilla}/${ramv}/${ciudad}/${usuario}`
+      'post',
+      `${ATMEndPoint.VIZUALIZAR_HTML_ATM}`,
+      plantilla
 );
 
 export const nombrePlantillasPorCiudad = (ciudad: string) =>
@@ -16,11 +18,11 @@ export const nombrePlantillasPorCiudad = (ciudad: string) =>
       `${ATMEndPoint.OBTENER_NOMBRE_PLANTILLAS_X_CIUDAD}/${ciudad}`
 );
 
-export const DescargarPDFATM = (codigoPlantilla: String, ramv: String, ciudad: String, usuario: string) =>
+export const DescargarPDFATM = (plantilla: ReporteAtmOutDto) =>
     request<string>(
-      'get',
-      `${ATMEndPoint.DESCARGAR_PDF_ATM}/${codigoPlantilla}/${ramv}/${ciudad}/${usuario}`,
-      null,
+      'post',
+      `${ATMEndPoint.DESCARGAR_PDF_ATM}`,
+      plantilla,
       undefined,
       true
 );

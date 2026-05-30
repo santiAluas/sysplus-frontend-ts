@@ -1,6 +1,6 @@
 import SearchBlobal from "@/components/SearchBlobal"
 import SelectOneItem from "@/components/SelectOneItem";
-import { Button, Card, Grid, Stack, Typography } from "@mui/material"
+import { Button, Card, Checkbox, FormControlLabel, Grid, Stack, Switch, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 import Opciones from "../models/Opciones";
 import { DescargarPDFATM, nombrePlantillasPorCiudad, VizualizarHtml } from "../Services/ATMServices";
@@ -11,6 +11,7 @@ import CustomAutocompleteTs from "@/componentesCommons/CustomAutocompleteTs";
 import { showAlert } from "@/utils/modalAlerts";
 import { Decrypt_User } from "@/services/Storage_Service";
 import OpcionesList from "../models/OpcionesList";
+import { Check } from "@mui/icons-material";
 
 export const VizualizarDescargarPdfAtm = () => {
 
@@ -19,6 +20,8 @@ export const VizualizarDescargarPdfAtm = () => {
     
     const [htmlVizualizar, setHtmlVizualizar] = useState<string>("");
     const [ciudad, setCiudad] = useState<string>("");
+    const [esContraEntrega, setEsContraEntrega] = useState<boolean>(false);
+
 
     const { stopLoading, startLoading } = useLoading();
     const [opcionesPlantilla, setOpcionesPlantillas] = useState<any[]>([]);
@@ -47,7 +50,12 @@ export const VizualizarDescargarPdfAtm = () => {
             }
             const user = Decrypt_User();
             startLoading();
-            const response = await VizualizarHtml(seleccionItem?.id?.toString(), ramvBuscar, ciudad, user.User);
+            const response = await VizualizarHtml({
+                codigoPlantilla: seleccionItem?.id?.toString(), 
+                ramv: ramvBuscar.toString(), 
+                ciudad: ciudad,
+                usuario:user.User
+            });
             setHtmlVizualizar(response);
         } finally {
             stopLoading();
@@ -59,7 +67,12 @@ export const VizualizarDescargarPdfAtm = () => {
             const user = Decrypt_User();
 
             startLoading();
-            await DescargarPDFATM(seleccionItem?.id?.toString(), ramvBuscar, ciudad, user.User);
+            await DescargarPDFATM({
+                codigoPlantilla: seleccionItem?.id?.toString(), 
+                ramv: ramvBuscar.toString(), 
+                ciudad: ciudad,
+                usuario:user.User
+            });
         } finally {
             stopLoading();
         }
@@ -106,7 +119,15 @@ export const VizualizarDescargarPdfAtm = () => {
                     title="Buscar RAMV"
                     functionExecute={buscarRAMV}></SearchBlobal>
             </Grid>
-
+            <Grid item lg={12}>
+            <FormControlLabel
+                control={<Checkbox  checked={esContraEntrega}
+        onChange={(e) => setEsContraEntrega(e.target.checked)}
+        color="primary" />}
+                label="¿Es contra-entrega?"
+                labelPlacement="end"
+            />
+            </Grid>
 
             {htmlVizualizar && (
                 <Grid item lg={12} mt={3}>

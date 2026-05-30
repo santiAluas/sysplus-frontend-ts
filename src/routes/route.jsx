@@ -88,6 +88,9 @@ import DescargarCobrosOriginalesIndex from "@/pages/TarjetasCreditoRefactor/Desc
 import SubirLiquidacionesCT from "@/pages/TarjetasCreditoRefactor/SubirLiquidacionesCT";
 import TarjetasCreditoCT from "@/pages/TarjetasCreditoRefactor/TarjetasCreditoCT";
 import CambioNumeroComprobanteIndex from "@/pages/CarteraModulo/CambioNumeroComprobantePages/CambioNumeroComprobanteIndex";
+import EditarLiquidaCobrosOriginalesIndex from "@/pages/TarjetasCreditoRefactor/EditarLiquidaCobrosOriginalesIndex";
+import EditarLiquidacionesTarjetasIndex from "@/pages/TarjetasCreditoRefactor/EditarLiquidacionesTarjetasIndex";
+import ReporteLiquidacionesCobrosIndex from "@/pages/TarjetasCreditoRefactor/ReporteLiquidacionesCobrosIndex";
 
 export const routes = [
   
@@ -108,6 +111,12 @@ export const routes = [
 
 
   { path: "/descargar-reporte-atm", element: <FormularioAtmIndex />},
+  { path: "/editar-cobros-originales", element: <EditarLiquidaCobrosOriginalesIndex />},
+  { path: "/editar-liquidaciones-tarjetas", element: <EditarLiquidacionesTarjetasIndex />},
+  { path: "/reporte-liquidaciones-tarjetas", element: <ReporteLiquidacionesCobrosIndex  />},
+
+
+
 
 
   { path: "/reporte-no-liquidados-matricula", element: <ReporteNoLiquidadasIndex />},
