@@ -24,7 +24,11 @@ export class TomaFisicaProducto {
     usuario,
     agencia,
     localizacion,
-    tipodefectomoto
+    tipodefectomoto,
+    rac,
+    columna,
+    nivel,
+    posicion
   ) {
     this.codigoProducto = codigoProducto;
     this.nombreProducto = nombreProducto;
@@ -51,5 +55,9 @@ export class TomaFisicaProducto {
     this.agencia = agencia;
     this.localizacion =localizacion;
     this.tipodefectomoto = tipodefectomoto;
+    this.rac = rac;
+    this.columna = columna;
+    this.nivel = nivel;
+    this.posicion = posicion;
   }
 }

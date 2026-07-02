@@ -1,16 +1,18 @@
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import { showAlert } from './modalAlerts';
 import { BASE_URL, BASE_URL_WHATSAPP_WEB } from './EnvUrl';
+import { Decrypt_User } from '@/services/Storage_Service';
 
 
 const api = (prefix = '', isUrlWhatApp = false) => {
   //   const { showAlert } = useAlert();
-
+console.log(localStorage.getItem('token'))
+const user = Decrypt_User();
   const instance = axios.create({
     baseURL: (isUrlWhatApp ? BASE_URL_WHATSAPP_WEB : BASE_URL) + `${prefix}`,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('tokenApp')}`
+      Authorization: `Bearer ${user.Token}`
     }
   });
 

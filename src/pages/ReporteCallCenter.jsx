@@ -52,10 +52,10 @@ const ReporteCallCenter = () => {
         );
     }
   return (
-    <Box component="fieldset" pt={2} pb={4} pl={2} pr={2}>
+    <Box component="fieldset" pt={2} pb={4} pl={2} pr={2} whiteSpace={2}>
     <legend>REPORTE PURE CLOUD</legend>
     <ToastContainer />
-    <Stack spacing={{ xs: 1, sm: 2 }} justifyContent="center" alignItems="center">
+    <Stack spacing={{ xs: 5, sm: 2 }} justifyContent="center" alignItems="center" >
       <RangoFechas dateInit={dateInit} 
                   dateEnd={dateEnd} 
                   setDateInit={setDateInit} 

@@ -50,7 +50,8 @@ const TarjetasCreditoCTPage = () => {
                     'importe_deposito': 'number',
                     'factura_cliente': 'string',
                     'banco_procesador': 'string',
-                    'usuario_1': 'string'
+                    'usuario_1': 'string',
+                    'total_cuotas': 'string?'
                 }}
             />
         </>

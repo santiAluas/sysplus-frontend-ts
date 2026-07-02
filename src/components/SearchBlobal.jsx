@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 const SearchBlobal = ({ parameterSearch, 
                         setParameterSearch, 
                         functionExecute, 
-                        title = "" }) => {
+                        title = "Buscar" }) => {
 
   const search = () => {
     manejoMensajes(functionExecute, "CARGANDO...")
@@ -55,7 +55,7 @@ const SearchBlobal = ({ parameterSearch,
               fullWidth
             >
               <Typography color={'white'} >
-                BUSCAR
+                {title}
               </Typography>
             </Button>
           </div>

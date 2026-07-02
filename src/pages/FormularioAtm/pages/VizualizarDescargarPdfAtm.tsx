@@ -10,14 +10,13 @@ import CiudadesLista from "../helpers/CiudadesLista";
 import CustomAutocompleteTs from "@/componentesCommons/CustomAutocompleteTs";
 import { showAlert } from "@/utils/modalAlerts";
 import { Decrypt_User } from "@/services/Storage_Service";
-import OpcionesList from "../models/OpcionesList";
-import { Check } from "@mui/icons-material";
+import CiudadesMatriculacion from "@/componentesCommons/SelectCiudadesMatriculacion/CiudadesMatriculacion";
 
 export const VizualizarDescargarPdfAtm = () => {
 
     const [ramvBuscar, setRamvBuscar] = useState<String>("");
     const [seleccionItem, setSeleccionItem] = useState<any>(null);
-    
+
     const [htmlVizualizar, setHtmlVizualizar] = useState<string>("");
     const [ciudad, setCiudad] = useState<string>("");
     const [esContraEntrega, setEsContraEntrega] = useState<boolean>(false);
@@ -39,7 +38,7 @@ export const VizualizarDescargarPdfAtm = () => {
                 return
             }
 
-             if (!ramvBuscar) {
+            if (!ramvBuscar) {
                 const configAlert = {
                     title: "Error",
                     message: "Debe escribir el RAMV",
@@ -51,10 +50,11 @@ export const VizualizarDescargarPdfAtm = () => {
             const user = Decrypt_User();
             startLoading();
             const response = await VizualizarHtml({
-                codigoPlantilla: seleccionItem?.id?.toString(), 
-                ramv: ramvBuscar.toString(), 
+                codigoPlantilla: seleccionItem?.id?.toString(),
+                ramv: ramvBuscar.toString(),
                 ciudad: ciudad,
-                usuario:user.User
+                usuario: user.User,
+                esContraEntrega: esContraEntrega
             });
             setHtmlVizualizar(response);
         } finally {
@@ -68,10 +68,11 @@ export const VizualizarDescargarPdfAtm = () => {
 
             startLoading();
             await DescargarPDFATM({
-                codigoPlantilla: seleccionItem?.id?.toString(), 
-                ramv: ramvBuscar.toString(), 
+                codigoPlantilla: seleccionItem?.id?.toString(),
+                ramv: ramvBuscar.toString(),
                 ciudad: ciudad,
-                usuario:user.User
+                usuario: user.User,
+                esContraEntrega: esContraEntrega
             });
         } finally {
             stopLoading();
@@ -79,8 +80,14 @@ export const VizualizarDescargarPdfAtm = () => {
     }
 
     const llenarPlantillasPorCiudad = async (ciudadParametro: string) => {
-        const respuesta = await  nombrePlantillasPorCiudad(ciudadParametro);
-        setOpcionesPlantillas(respuesta);
+        
+         try {
+            startLoading();
+            const respuesta = await nombrePlantillasPorCiudad(ciudadParametro);
+            setOpcionesPlantillas(respuesta);
+        } finally {
+            stopLoading();
+        }
     }
 
     useEffect(() => {
@@ -89,60 +96,40 @@ export const VizualizarDescargarPdfAtm = () => {
 
 
     const seleccionarCiudad = async (item: any) => {
-        setCiudad(item.descripcion ?? '')
+        setCiudad(item.name ?? '')
         setOpcionesPlantillas([]);
         setSeleccionItem("");
-        llenarPlantillasPorCiudad(item.descripcion);
+        llenarPlantillasPorCiudad(item.name);
     }
 
     return (
         <Grid container spacing={3}>
-            <Grid item lg={12}>
-                <CustomAutocompleteTs
-                    options={CiudadesLista}
-                    labelFullField="Seleccione la Ciudad"
-                    optionLabel="descripcion"
-                    handleChange={(e, value) => seleccionarCiudad(value)}
-                />
+            <Grid item lg={6} xs={12}>
+               <CiudadesMatriculacion setCiudad={seleccionarCiudad}/>
             </Grid>
-            <Grid item lg={12}>
-                <CustomAutocompleteTs 
+            <Grid item lg={6} xs={12}>
+                <CustomAutocompleteTs
                     options={opcionesPlantilla}
                     defaultValue={seleccionItem}
                     labelFullField="Seleccione la Plantilla"
+                    label="Plantillas"
                     handleChange={(e, value) => setSeleccionItem(value ?? "")} />
             </Grid>
-            
-            <Grid item lg={12} >
+             <Grid item lg={12} xs={12}>
+                <FormControlLabel
+                    control={<Checkbox checked={esContraEntrega}
+                        onChange={(e) => setEsContraEntrega(e.target.checked)}
+                        color="primary" />}
+                    label="¿Es contra-entrega?"
+                    labelPlacement="end"
+                />
+            </Grid>
+            <Grid item lg={12} xs={12} >
                 <SearchBlobal parameterSearch={ramvBuscar}
                     setParameterSearch={setRamvBuscar}
-                    title="Buscar RAMV"
-                    functionExecute={buscarRAMV}></SearchBlobal>
+                    title="Descargar documento"
+                    functionExecute={descargarReportePDFAtm}></SearchBlobal>
             </Grid>
-            <Grid item lg={12}>
-            <FormControlLabel
-                control={<Checkbox  checked={esContraEntrega}
-        onChange={(e) => setEsContraEntrega(e.target.checked)}
-        color="primary" />}
-                label="¿Es contra-entrega?"
-                labelPlacement="end"
-            />
-            </Grid>
-
-            {htmlVizualizar && (
-                <Grid item lg={12} mt={3}>
-                    <Stack direction='column' justifyContent='center' alignItems='center' spacing={3}>
-                        <Typography>Previzualizacion</Typography>
-                        <Button variant="contained"
-                            onClick={descargarReportePDFAtm}
-                        >Descargar PFD</Button>
-                        <Card style={{ padding: '10px 10px 10px 10px' }}>
-                            <RenderHTML html={htmlVizualizar} />
-                        </Card>
-                    </Stack>
-                </Grid>
-            )}
-
         </Grid>
     )
 }

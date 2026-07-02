@@ -22,7 +22,7 @@ const RangoFechas = ({ setDateInit, setDateEnd, dateInit, dateEnd }) => {
             <Grid item xs={12} md={6}>
               <Typography
                 fontWeight="600"
-                sx={{ mb: 0.5, color: 'text.secondary' }}
+                sx={{ mb: 2, color: 'text.secondary' }}
               >
                 Fecha de inicio del período
               </Typography>
@@ -46,7 +46,7 @@ const RangoFechas = ({ setDateInit, setDateEnd, dateInit, dateEnd }) => {
             <Grid item xs={12} md={6}>
               <Typography
                 fontWeight="600"
-                sx={{ mb: 0.5, color: 'text.secondary' }}
+                sx={{ mb: 2, color: 'text.secondary' }}
               >
                 Fecha de fin del período
               </Typography>

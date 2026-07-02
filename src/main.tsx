@@ -13,7 +13,7 @@ import AppRoutes from './helpers/AppRoutes'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs from '@/utils/dayjs-setup'
-
+import '@/config/axiosToken.config';
 createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <LocalizationProvider

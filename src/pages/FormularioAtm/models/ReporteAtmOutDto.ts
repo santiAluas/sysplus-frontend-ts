@@ -3,4 +3,5 @@ export default interface ReporteAtmOutDto{
   ramv:string,
   ciudad:string,
   usuario:string,
+  esContraEntrega: boolean;
 }

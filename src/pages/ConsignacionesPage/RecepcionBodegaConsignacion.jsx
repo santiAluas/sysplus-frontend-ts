@@ -162,7 +162,7 @@ const RecepcionBodegaConsignacion = () => {
         try {
             const usuario = await OnInitPage();
             if (usuario.OrganizationId !== undefined) {
-                await GET_ALL_PEDIDOCOMPRA(usuario.OrganizationId);
+                 GET_ALL_PEDIDOCOMPRA(usuario.OrganizationId);
             }
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -196,7 +196,7 @@ const RecepcionBodegaConsignacion = () => {
         border: '2px solid #000',
         boxShadow: 24,
         p: 4,
-        width: '80%'
+        width: '100%'
     };
 
     const styleCell = (width = 8) => {
@@ -248,14 +248,7 @@ const RecepcionBodegaConsignacion = () => {
         <BasePage title='RECEPCION DE PRODUCTOS CONSIGNADOS'>
             <ToastContainer />
             <Box
-                sx={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    '& > :not(style)': {
-                        m: 0,
-                        height: '100%',
-                    },
-                }}
+                
             >
                 <Paper elevation={3}
                     style={{

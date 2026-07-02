@@ -1,358 +1,189 @@
 import {
-  Button, Checkbox, Divider, FormControl, FormControlLabel, FormGroup,
-  Grid, InputLabel, MenuItem, Paper, Select, Stack, TextField, Typography
-} from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import precaucionfondo from '../../assets/images/precaucionfondo.jpg'
-import { ToastContainer, toast } from 'react-toastify';
-import {
-  GET_AGENCIES_BY_EMPLOYEE,
-  SEARCH_PRODUCTO_INVENTORY,
-  SAVE_PRODUCT_INVENTORY,
-  FINISH_INVENTORY
-} from '../../services/Api_Inventario/Api_TomaFisicaInventario.js' //services/Api_Inventario/Api_TomaFisicaInventario.js'
-import { TomaFisicaProducto } from '../../components/TomaInventarioFisicoComp/class/TomaFisicaProducto.js';
+  Box,
+  Button,
+  Checkbox,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Paper,
+  Select,
+  Stack,
+  TextField,
+  Typography
+} from '@mui/material';
+
+import precaucionfondo from '../../assets/images/precaucionfondo.jpg';
 import DescripcionItem from '../../components/AuditoriaStock/DescripcionItem.jsx';
-import { manejoMensajes } from '../../helpers/ManejoExcepciones.js'
-import { Decrypt_User } from '../../services/Storage_Service'
-import { useNavigate } from 'react-router-dom';
-import { productoEncerrado } from './ObjetosInventario.js'
-import InformationMoto from './components/InformationMoto.jsx';
-import KitMotoinformacion from './components/KitMotoinformacion.jsx';
 import CabeceraInventario from './components/CabeceraInventario.jsx';
 import ConfirmDialog from '../../components/TomaInventarioFisicoComp/ConfirmDialog.jsx';
-import { showAlert } from '@/utils/modalAlerts.js';
+import LocationBoxItem from './components/LocationBoxItem.jsx';
+import InventarioCiegoHook from './hooks/InventarioCiegoHook.js';
+import agenciaVaciaImage from '@/assets/images/agencia_vacia.png';
+
 const InventarioCiego = () => {
-  let navigate = useNavigate();
+  const {
+    agencuasUsuarios,
+    seleccionarAgencia,
+    seleccionarAgenciaYJefeAgencia,
+    objectAgencia,
+    selectNameAgencia,
+    userLogin,
 
-  const [agencuasUsuarios, setAgencuasUsuarios] = useState([]);
-  const [seleccionarAgencia, setSeleccionarAgencia] = useState("")
-  const [objectAgencia, setObjectAgencia] = useState([])
-  const [selectNameAgencia, setSelectNameAgencia] = useState("")
-  const [idAgencySelect, setIdAgencySelect] = useState("")
-  const [userLogin, setUserLogin] = React.useState({});
-  const [codigoProducto, setCodigoProducto] = useState("")
-  const [openSearchProduct, setOpenSearchProduct] = React.useState(false);
-  const [listProduct, setListProduct] = useState([]);
-  const [producto, setProducto] = useState(productoEncerrado)
-  const [locationItem, setLocationItem] = useState("")
-  const [cantidad, setCantidad] = useState(0)
-  const [descripcion, setDescripcion] = useState("")
-  const [motor, setMotor] = useState("")
-  const [chasis, setChasis] = useState("")
-  const [color, setColor] = useState("")
-  const [observacion, setObservacion] = useState("")
-  const [llaves, setllaves] = useState(0)
-  const [manual, setmanual] = useState(0)
-  const [baterias, setbaterias] = useState(0)
-  const [herramientas, setherramientas] = useState(0)
-  const [retrovisores, setretrovisores] = useState(0)
-  const [apoyaPies, setapoyaPies] = useState(0)
-  const [portaPlacas, setportaPlacas] = useState(0)
-  const [portaMaleteros, setportaMaleteros] = useState(0)
-  const [aguaBateria, setaguaBateria] = useState(0)
-  const [isConsignado, setIsConsignado] = useState(0)
-  const [counterComponent, setCounterComponent] = useState(new Date().getTime())
-  const [organizations, setOrganizations] = useState([]);
-  const [codProducto, setCodProducto] = useState("");
-  const [typeDamageMotocycle, setTypeDamageMotocycle] = useState(0)
-  const [typeSelectionMotoCount, setTypeSelectionMotoCount] = useState(0)
-  const [blockSectionKits, setBlockSectionKits] = useState(false)
-  const [selectedKitMoto, setSelectedKitMoto] = useState(0)
-  const [cantidadBuenEstado, setCantidadBuenEstado] = useState(0)
-  const [cantidadMalEstado, setCantidadMalEstado] = useState(0)
-  const [existProduct, setExistProduct] = useState(false)
-  const [isKit, setIsKit] = useState(false)
-  const [observationSelection, setObservationSelection] = useState(0)
-  const [habiliatObsercacion, setHabilitarObservacion] = useState(true)
-  const [obsActive, setObsActive] = useState(false)
-  const [estadoKit, setEstadoKit] = useState("")
-  const [observacionesKit, setObservacionesKit] = useState("")
-  const [activarObservacionesKit, setActivarObservacionesKit] = useState(true)
-  const [openFinishAuditory, setOpenFinishAuditory] = useState(false)
-  const [esSobrante, setEsSobrante] = useState(false)
-  const OnInitPage = async () => {
-    const user = Decrypt_User();
-    if (user === null) {
-      return navigate('/');
-    }
-    setUserLogin(user)
+    codigoProducto,
+    setCodigoProducto,
+    codProducto,
+    setCodProducto,
+    descripcion,
+    setDescripcion,
+    organizations,
+    setOrganizations,
+    counterComponent,
 
-    try {
-      const respuesta = await GET_AGENCIES_BY_EMPLOYEE(user.User)
-      setAgencuasUsuarios(respuesta)
-    } catch (error) {
-    }
-  }
+    cantidad,
+    cantidadBuenEstado,
+    setCantidadBuenEstado,
+    cantidadMalEstado,
+    setCantidadMalEstado,
+    setCountProduct,
 
-  useEffect(() => {
-    OnInitPage();
-    setCantidad(cantidadBuenEstado + cantidadMalEstado)
-  }, [producto, cantidadBuenEstado, cantidadMalEstado]);
+    existProduct,
+    checkProductExist,
+    esSobrante,
+    generarSobrante,
 
-  const handleKitStateChange = (value) => {
-    setEstadoKit(value)
-    if (value === "INCOMPLETO") {
-      setObservacionesKit("")
-      return setActivarObservacionesKit(false)
-    }
-    return setActivarObservacionesKit(true)
-  }
+    observacion,
+    setObservacion,
+    observationSelection,
+    SelectObservation,
+    habiliatObsercacion,
 
- const CheckIsKit = (e, checked) => {
-  setIsKit(checked);
+    isKit,
+    CheckIsKit,
+    estadoKit,
+    handleKitStateChange,
+    observacionesKit,
+    setObservacionesKit,
+    activarObservacionesKit,
 
-  if (checked) {
-    setEstadoKit(0);
-  } else {
-    setEstadoKit(0); // o lo que corresponda cuando NO es kit
-  }
-};
+    ubicacion,
+    setUbicacion,
 
-  const seleccionarAgenciaYJefeAgencia = (e) => {
-    setSeleccionarAgencia(e.target.value)
-    const resultado = agencuasUsuarios.find(item => item.idagencia === e.target.value);
-    setObjectAgencia(resultado)
-    setSelectNameAgencia(resultado.nombreagencia)
-    setIdAgencySelect(resultado.idagencia)
-  }
+    estiloLaberBuenMalEstado,
 
-  const checkProductExist = () => {
-    setExistProduct(prev => !prev)
-    setCodigoProducto("")
-    setDescripcion("")
-  }
+    openFinishAuditory,
+    setOpenFinishAuditory,
+    confirmInventoryFinish,
+    cancelConfirmInventoryFinish,
 
-  const haveAllKitMoto = (havekit) => {
-    setBlockSectionKits(havekit)
-    setllaves(havekit ? 1 : 0)
-    setmanual(havekit ? 1 : 0)
-    setbaterias(havekit ? 1 : 0)
-    setherramientas(havekit ? 1 : 0)
-    setretrovisores(havekit ? 1 : 0)
-  }
-
-  const resetComponentes = () => {
-    setllaves(0)
-    setmanual(0)
-    setbaterias(0)
-    setherramientas(0)
-    setretrovisores(0)
-    setapoyaPies(0)
-    setportaPlacas(0)
-    setportaMaleteros(0)
-    setaguaBateria(0)
-  }
-
-  const getCountGoodOrBatStatus = (value) => {
-    if (value !== 2) {
-      setTypeDamageMotocycle(0)
-      setObservacion("")
-      setObservationSelection(0)
-    }
-    if (value !== undefined) {
-      setTypeSelectionMotoCount(value)
-    }
-  }
-
-
-  const SelectObservation = (value) => {
-    setHabilitarObservacion(value !== 5);
-    setObservationSelection(value)
-    if (value === 5)
-      return setObservacion(prev => prev.replace(prev, ""))
-    setObservacion(prev => prev.replace(prev, value))
-  }
-
-  const estiloLaberBuenMalEstado = (estado) => {
-    return {
-      "& label": { color: estado, fontWeight: "bold" }, // Color del label
-      "& label.Mui-focused": { color: estado }, // Color cuando está enfocado
-      "& .MuiInput-underline:before": { borderBottomColor: estado }, // Línea antes de interactuar
-      "& .MuiInput-underline:after": { borderBottomColor: estado }, // Línea después de interactuar
-    }
-  }
-
-
-  const errores = [
-    { cond: seleccionarAgencia.trim() === "", msg: "No ha seleccionado una agencia para poder grabar." },
-    { cond: cantidad === 0, msg: "La cantidad no puede ser cero." },
-    { cond: existProduct !== false && (descripcion.trim() === "" ), msg: "Los campos descripción y código producto deben ser llenados cuando el producto no existe." },
-    { cond: existProduct === true && codProducto === 0, msg: "No existe ningún producto seleccionado." },
-    { cond: isKit === true && estadoKit === 0, msg: "No ha seleccionado el estado del kit." },
-    { cond: isKit === true && estadoKit === "INCOMPLETO" && observacionesKit.trim() === "", msg: "El KIT está incompleto, la observación debe ser llenada." },
-    { cond: observationSelection === 5 && observacion.trim() === "", msg: "Seleccionó OTROS en OBSERVACIONES, la observación es obligatoria." },
-    { cond: cantidadMalEstado > 0 && observacion.trim() === "", msg: "TIENE PRODUCTOS EN MAL ESTADO Y NO HA ESCRITO NINGUNA OBSERVACION" }
-
-  ];
-
-
-  const grabarItem = async () => {
-    const error = errores.find(e => e.cond);
-    if(!existProduct && !codProducto ){
-        const configAlert = {
-                            title: "ERROR",
-                            message: "Debe Seleccionar un producto",
-                            type: 'error',
-                            callBackFunction: false,
-                        };
-        showAlert(configAlert);
-        return ;
-    }
-    if (error) return toast.error(error.msg, { position: toast.POSITION.TOP_CENTER });
-    try {
-      const tomaFisicaProducto = new TomaFisicaProducto(
-        !existProduct ? codProducto : codigoProducto,
-        descripcion.replace("'",""),
-        String(cantidadBuenEstado ?? "0"),
-        String(cantidadMalEstado ?? "0"),
-        String(motor),
-        String(chasis),
-        String(llaves ?? "0"),
-        String(manual ?? "0"),
-        String(baterias ?? "0"),
-        String(herramientas ?? "0"),
-        String(retrovisores ?? "0"),
-        String(apoyaPies ?? "0"),
-        String(portaPlacas ?? "0"),
-        String(portaMaleteros ?? "0"),
-        String(aguaBateria ?? "0"),
-        `Observación: ${observacion} ; Observación KIT: ${observacionesKit.trim() || "SIN OBSERVACIONES"}`,
-        "0",
-        String(parseInt(cantidad)),
-        String(color),
-        "0",
-        String(generarCodigo()),
-        String(userLogin.User),
-        String(seleccionarAgencia),
-        "SIN LOCALIZACION",
-        `Estado del KIT: ${estadoKit}`
-      );
-
-
-      await SAVE_PRODUCT_INVENTORY(tomaFisicaProducto);
-      setIsKit(false)
-      setEsSobrante(false);
-      setExistProduct(false);
-      InicializarDatos();
-      manejoMensajes(() => Promise.resolve(), "SE GRABÓ CORRECTAMENTE");
-    } catch (error) {
-      console.error("Error al guardar el producto:", error);
-      toast.error("Error al guardar el producto.", { position: toast.POSITION.TOP_CENTER });
-    }
-  }
-
-
-  const InicializarDatos = () => {
-    setCantidad(0);
-    setDescripcion("");
-    setMotor("");
-    setChasis("");
-    setColor("");
-    setObservacion("");
-    resetComponentes();
-    setOrganizations([]);
-    setEstadoKit(0);
-    setObservationSelection(0);
-    setCodigoProducto("")
-    setSelectedKitMoto(null);
-    setCantidadBuenEstado(0);
-    setCantidadMalEstado(0);
-    setTypeDamageMotocycle(0);
-    getCountGoodOrBatStatus(0);
-    setCounterComponent(new Date().getTime())
-    setObservacionesKit("")
-    setObsActive(false)
-    setIsKit(false)
-    CheckIsKit()
-    setCodProducto("")
-  }
-
-  function generarCodigo() {
-    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
-    const longitud = 36;
-    let codigoGenerado = '';
-
-    for (let i = 0; i < longitud; i++) {
-      const indiceAleatorio = Math.floor(Math.random() * caracteres.length);
-      codigoGenerado += caracteres.charAt(indiceAleatorio);
-    }
-    return codigoGenerado;
-  }
-
-  const setCountProduct = (e, setValor) => {
-    const inputValue = e.target.value.replace(/[^0-9]/g, '');
-    if (inputValue === "") {
-      setValor(0)
-    } else {
-      setValor(parseInt(inputValue));
-    }
-  }
-
-  const confirmInventoryFinish = () => {
-    finishAutory()
-  }
-
-  const cancelConfirmInventoryFinish = () => {
-    setOpenFinishAuditory(false)
-  }
-
-  const finishAutory = async () => {
-    try {
-      await FINISH_INVENTORY({
-        agencia: idAgencySelect,
-        usuario: userLogin.User
-      });
-      toast.success(`SE FINALIZO EL INVENTARIO DE LA AGENCIA ${selectNameAgencia} CORRECTAMENTE`, { position: toast.POSITION.TOP_CENTER });
-    } catch (error) {
-      toast.error(error.message, { position: toast.POSITION.TOP_CENTER });
-    }
-  }
-
-  const generarSobrante = (isChecked) => {
-    setEsSobrante(isChecked);
-    setCodigoProducto(isChecked ? `SOB-${generarNumeroAleatorio()}` : "");
-  };
-
-  function generarNumeroAleatorio() {
-    return Math.floor(10000 + Math.random() * 90000);
-  }
+    grabarItem
+  } = InventarioCiegoHook();
 
   return (
-    <>
-      <ToastContainer />
+    <Box
+      sx={{
+        width: '100%',
+        minHeight: '100vh',
+        py: 3,
+        backgroundColor: '#f4f6f8'
+      }}
+    >
       <ConfirmDialog
-        title={`DESEA FINALIZAR EL INVENTARIO DE LA AGENCIA ${selectNameAgencia}`}
+        title={`Desea finalizar el inventario de la agencia:  ${selectNameAgencia.trim().length === 0 || selectNameAgencia.trim() === "-- SELECT --" ? "SIN AGENCIA SELECCIONADA" : selectNameAgencia}`}
         functionConfirm={confirmInventoryFinish}
         functionCancel={cancelConfirmInventoryFinish}
         setOpen={setOpenFinishAuditory}
         open={openFinishAuditory}
       />
-      <Stack direction="row" justifyContent="center" alignItems="center" flexWrap='wrap'>
+
+      <Stack
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        spacing={3}
+        sx={{
+          width: '100%',
+          px: { xs: 1.5, md: 2 }
+        }}
+      >
         <Paper
-          elevation={3}
-          style={{
-            marginTop: 10,
-            padding: '10px',
-            backgroundImage: `linear-gradient(rgba(0, 0, 0.8, 0.5), rgba(0, 0, 10, 0.5)), url(${precaucionfondo})`,
-            backgroundSize: 'cover',
-            color: 'white',
+          elevation={4}
+          sx={{
+            p: { xs: 2.5, md: 3 },
             width: '90%',
+            mx: 'auto',
+            borderRadius: 3,
+            overflow: 'hidden',
+            color: 'white',
             textAlign: 'center',
+            backgroundImage: `linear-gradient(rgba(17, 24, 39, 0.78), rgba(127, 29, 29, 0.72)), url(${precaucionfondo})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            border: '1px solid rgba(255,255,255,0.15)'
           }}
         >
-          <Divider style={{ fontWeight: 'bold', fontSize: '20px', color: 'white' }}>
-            ACCIONES ESPECIALES <p className='parpadeo-rojo'>(PRECAUCION)</p>
+          <Divider
+            sx={{
+              mb: 2,
+              '&::before, &::after': {
+                borderColor: 'rgba(255,255,255,0.45)'
+              }
+            }}
+          >
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              justifyContent="center"
+              alignItems="center"
+              spacing={1}
+            >
+              <Typography
+                sx={{
+                  fontWeight: 800,
+                  fontSize: { xs: 16, md: 20 },
+                  letterSpacing: 1,
+                  color: '#ffffff'
+                }}
+              >
+                ACCIONES ESPECIALES
+              </Typography>
+
+              <Typography
+                component="span"
+                className="parpadeo-rojo"
+                sx={{
+                  fontWeight: 800,
+                  fontSize: { xs: 13, md: 15 },
+                  color: '#fecaca'
+                }}
+              >
+                (PRECAUCIÓN)
+              </Typography>
+            </Stack>
           </Divider>
+
           <Grid container spacing={2}>
-            <Grid item md={12}>
+            <Grid item xs={12}>
               <Button
-                className='parpadeo-rojo'
+                className="parpadeo-rojo"
                 size="large"
                 fullWidth
                 variant="contained"
-                style={{ background: '#9ecfbc', fontWeight: 'bold' }}
-                sx={{ boxShadow: 4 }}
+                sx={{
+                  py: 1.4,
+                  fontWeight: 800,
+                  letterSpacing: 0.6,
+                  borderRadius: 2,
+                  color: '#064e3b',
+                  backgroundColor: '#9ecfbc',
+                  boxShadow: 4,
+                  '&:hover': {
+                    backgroundColor: '#86bfa9',
+                    boxShadow: 6
+                  }
+                }}
                 onClick={() => setOpenFinishAuditory(true)}
               >
                 FINALIZAR INVENTARIO
@@ -369,108 +200,203 @@ const InventarioCiego = () => {
           objectAgencia={objectAgencia}
         />
 
+        <Box
+          component="img"
+          src={agenciaVaciaImage}
+          alt="Agencia no seleccionada"
+          sx={{
+            p: 2,
+            width: { xs: '85%', sm: '65%', md: '45%', lg: '35%' },
+            maxWidth: 520,
+            objectFit: 'contain',
+            display: seleccionarAgencia === '0' ? 'block' : 'none'
+          }}
+        />
+
         <Paper
-          elevation={3}
-          style={{
-            marginTop: 10,
-            padding: '10px',
+          elevation={4}
+          sx={{
+            p: { xs: 2.5, md: 4 },
             width: '90%',
+            mx: 'auto',
+            borderRadius: 3,
             textAlign: 'center',
+            backgroundColor: '#ffffff',
+            border: '1px solid #e5e7eb',
+            display:
+              seleccionarAgencia === '0' || !seleccionarAgencia
+                ? 'none'
+                : 'block'
           }}
         >
-          <Typography textAlign='center' id="modal-modal-title" variant="h6" component="h2">
-            TOMA FISICA INVENTARIO CIEGO
+          <Typography
+            textAlign="center"
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            sx={{
+              mb: 3,
+              fontWeight: 800,
+              color: '#111827',
+              letterSpacing: 0.6
+            }}
+          >
+            TOMA FÍSICA INVENTARIO CIEGO
           </Typography>
+
           <Grid container spacing={3}>
-            <Grid item sm={12}>
-              <Divider>INFORMACION PRODUCTO</Divider>
+            <Grid item xs={12}>
+              <Divider
+                sx={{
+                  '&::before, &::after': {
+                    borderColor: '#d1d5db'
+                  }
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    color: '#374151',
+                    letterSpacing: 0.5
+                  }}
+                >
+                  INFORMACIÓN PRODUCTO
+                </Typography>
+              </Divider>
             </Grid>
-            <Grid item sm={6}></Grid>
-            <Grid item sm={6}>
-              <FormGroup>
+
+            <Grid item xs={12} md={6} />
+
+            <Grid item xs={12} md={6}>
+              <FormGroup
+                sx={{
+                  alignItems: { xs: 'flex-start', md: 'flex-end' }
+                }}
+              >
                 <FormControlLabel
                   required
                   onChange={checkProductExist}
                   control={<Checkbox checked={existProduct} />}
                   label="PRODUCTO NO IDENTIFICADO"
+                  sx={{
+                    m: 0,
+                    px: 1.5,
+                    py: 0.5,
+                    borderRadius: 2,
+                    backgroundColor: '#f9fafb',
+                    border: '1px solid #e5e7eb'
+                  }}
                 />
               </FormGroup>
             </Grid>
 
-            <Grid item sm={6}>
-              {!existProduct ? (
-                <DescripcionItem
-                  key={counterComponent}
-                  organizations={organizations}
-                  setOrganizations={setOrganizations}
-                  setCodProducto={setCodProducto}
-                  setDescriptionProduct={setDescripcion}
-                />
-              ) : (
-                <>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={<Checkbox checked={esSobrante}
-                        onChange={(e) => generarSobrante(e.target.checked)} />}
-                      label="SOBRANTE"
-                    />
-                  </FormGroup>
-                  <TextField
-                    id="codProducto"
-                    label="CODIGO PRODUCTO"
-                    variant="outlined"
-                    value={codigoProducto}
-                    sx={{ display: esSobrante ? "none" : "block" }}
-                    onChange={(e) => setCodigoProducto(e.target.value)}
-                    fullWidth
+            <Grid item lg={6} sm={12} xs={12}>
+              <Box
+                sx={{
+                  p: 2,
+                  borderRadius: 2,
+                  backgroundColor: '#f9fafb',
+                  border: '1px solid #e5e7eb'
+                }}
+              >
+                {!existProduct ? (
+                  <DescripcionItem
+                    key={counterComponent}
+                    organizations={organizations}
+                    setOrganizations={setOrganizations}
+                    setCodProducto={setCodProducto}
+                    setDescriptionProduct={setDescripcion}
                   />
-                </>
-              )}
+                ) : (
+                  <>
+                    <FormGroup sx={{ mb: 2 }}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={esSobrante}
+                            onChange={(e) => generarSobrante(e.target.checked)}
+                          />
+                        }
+                        label="SOBRANTE"
+                      />
+                    </FormGroup>
+
+                    <TextField
+                      id="codProducto"
+                      label="CÓDIGO PRODUCTO"
+                      variant="outlined"
+                      value={codigoProducto}
+                      sx={{
+                        display: esSobrante ? 'none' : 'block'
+                      }}
+                      onChange={(e) => setCodigoProducto(e.target.value)}
+                      fullWidth
+                    />
+                  </>
+                )}
+              </Box>
             </Grid>
 
-            <Grid item sm={6}>
-              <Stack spacing={3} direction="row">
-                <TextField
-                  id="CANTIDAD_BUEN_ESTADO"
-                  label="CANTIDAD BUEN ESTADO"
-                  variant="standard"
-                  value={cantidadBuenEstado}
-                  onChange={(e) => setCountProduct(e, setCantidadBuenEstado)}
-                  fullWidth
-                  autoComplete="off"
-                  inputProps={{
-                    autoComplete: 'off',
-                    form: {
-                      autoComplete: 'off',
-                    },
-                  }}
-                  sx={estiloLaberBuenMalEstado("#4CAF50")}
-                />
-                <TextField
-                  id="CANTIDAD MAL ESTADO"
-                  label="CANTIDAD MAL ESTADO"
-                  variant="standard"
-                  value={cantidadMalEstado}
-                  onChange={(e) => setCountProduct(e, setCantidadMalEstado)}
-                  fullWidth
-                  sx={estiloLaberBuenMalEstado("#FF5733")}
-                />
-                <TextField
-                  id="CANTIDAD TOTAL"
-                  label="CANTIDAD"
-                  variant="standard"
-                  value={cantidad}
-                  disabled={true}
-                  fullWidth
-                />
-              </Stack>
+            <Grid item lg={6} sm={12} xs={12}>
+              <Box
+                sx={{
+                  p: 2,
+                  borderRadius: 2,
+                  backgroundColor: '#f9fafb',
+                  border: '1px solid #e5e7eb'
+                }}
+              >
+                <Grid container spacing={3}>
+                  <Grid item lg={4} sm={12} xs={12}>
+                    <TextField
+                      id="CANTIDAD_BUEN_ESTADO"
+                      label="CANTIDAD BUEN ESTADO"
+                      variant="standard"
+                      value={cantidadBuenEstado}
+                      onChange={(e) => setCountProduct(e, setCantidadBuenEstado)}
+                      fullWidth
+                      autoComplete="off"
+                      inputProps={{
+                        autoComplete: 'off',
+                        form: {
+                          autoComplete: 'off'
+                        }
+                      }}
+                      sx={estiloLaberBuenMalEstado('#4CAF50')}
+                    />
+                  </Grid>
+
+                  <Grid item lg={4} sm={12} xs={12}>
+                    <TextField
+                      id="CANTIDAD MAL ESTADO"
+                      label="CANTIDAD MAL ESTADO"
+                      variant="standard"
+                      value={cantidadMalEstado}
+                      onChange={(e) => setCountProduct(e, setCantidadMalEstado)}
+                      fullWidth
+                      sx={estiloLaberBuenMalEstado('#FF5733')}
+                    />
+                  </Grid>
+
+                  <Grid item lg={4} sm={12} xs={12}>
+                    <TextField
+                      id="CANTIDAD TOTAL"
+                      label="CANTIDAD"
+                      variant="standard"
+                      value={cantidad}
+                      disabled={true}
+                      fullWidth
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
             </Grid>
 
             {existProduct && (
-              <Grid item sm={6}>
+              <Grid item lg={6} sm={12} xs={12}>
                 <TextField
                   id="DESCRIPCION"
-                  label="DESCRIPCION"
+                  label="DESCRIPCIÓN"
                   variant="outlined"
                   value={descripcion}
                   onChange={(e) => setDescripcion(e.target.value)}
@@ -479,51 +405,8 @@ const InventarioCiego = () => {
               </Grid>
             )}
 
-            <Grid item sm={12} sx={{ display: "none" }}>
-              <InformationMoto
-                setMotor={setMotor}
-                setChasis={setChasis}
-                chasis={chasis}
-                motor={motor}
-                setColor={setColor}
-                color={color}
-                getCountGoodOrBatStatus={getCountGoodOrBatStatus}
-                setTypeDamageMotocycle={setTypeDamageMotocycle}
-                typeDamageMotocycle={typeDamageMotocycle}
-                typeSelectionMotoCount={typeSelectionMotoCount}
-              />
-            </Grid>
-
-            <Grid item sm={12} sx={{ display: "none" }}>
-              <KitMotoinformacion
-                setIsConsignado={setIsConsignado}
-                setSelectedKitMoto={setSelectedKitMoto}
-                setllaves={setllaves}
-                baterias={baterias}
-                llaves={llaves}
-                setmanual={setmanual}
-                selectedKitMoto={selectedKitMoto}
-                manual={manual}
-                setherramientas={setherramientas}
-                herramientas={herramientas}
-                setretrovisores={setretrovisores}
-                retrovisores={retrovisores}
-                setapoyaPies={setapoyaPies}
-                apoyaPies={apoyaPies}
-                setportaPlacas={setportaPlacas}
-                portaPlacas={portaPlacas}
-                setportaMaleteros={setportaMaleteros}
-                portaMaleteros={portaMaleteros}
-                setaguaBateria={setaguaBateria}
-                aguaBateria={aguaBateria}
-                haveAllKitMoto={haveAllKitMoto}
-                blockSectionKits={blockSectionKits}
-                setbaterias={setbaterias}
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormControl fullWidth disabled={!(cantidadMalEstado>0)}>
+            <Grid item xs={12} md={6}>
+              <FormControl fullWidth disabled={!(cantidadMalEstado > 0)}>
                 <InputLabel id="observaciones-label">OBSERVACIONES</InputLabel>
                 <Select
                   labelId="observaciones-label"
@@ -544,65 +427,114 @@ const InventarioCiego = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={6}></Grid>
-
-            <Grid item xs={6}>
-              <FormGroup sx={{ textAlign: 'center', alignItems: "center" }}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={isKit}
-                      onChange={CheckIsKit}
-                    />
-                  }
-                  label="ES KIT ?"
+            <Grid item xs={12} md={6}>
+              {userLogin?.Parametros?.tiene_localizacion_items_inventario && (
+                <LocationBoxItem
+                  value={ubicacion}
+                  onChange={setUbicacion}
+                  sxTextField={estiloLaberBuenMalEstado('#3ba352')}
                 />
-                {isKit && (
-                  <FormControl fullWidth>
-                    <InputLabel id="estado-kit-label">ESTADO DEL KIT</InputLabel>
-                    <Select
-                      labelId="estado-kit-label"
-                      id="estado-kit"
-                      label="ESTADO DEL KIT"
-                      fullWidth
-                      value={estadoKit}
-                      sx={{ width: '100%' }}
-                      onChange={(e) => handleKitStateChange(e.target.value)}
-                    >
-                      <MenuItem value={0}>-- ESTADO --</MenuItem>
-                      <MenuItem value="COMPLETO">COMPLETO</MenuItem>
-                      <MenuItem value="INCOMPLETO">INCOMPLETO</MenuItem>
-                    </Select>
-                  </FormControl>
-                )}
-              </FormGroup>
+              )}
             </Grid>
 
-            <Grid item lg={6} sm={6}>
-              <TextField
-                fullWidth
-                id="observacion-kit"
-                label="ESCRIBIR OBSERVACION KIT..."
-                placeholder="Escribir...."
-                multiline
-                disabled={activarObservacionesKit}
-                rows={4}
-                variant="standard"
-                value={observacionesKit}
-                onChange={(e) => setObservacionesKit(e.target.value)}
-                sx={{ display: (activarObservacionesKit !== true ? "block" : "none") }}
-              />
+            <Grid item xs={12} md={6}>
+              <Box
+                sx={{
+                  p: 2,
+                  borderRadius: 2,
+                  backgroundColor: '#f9fafb',
+                  border: '1px solid #e5e7eb'
+                }}
+              >
+                <FormGroup
+                  sx={{
+                    textAlign: 'center',
+                    alignItems: 'center'
+                  }}
+                >
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={isKit}
+                        onChange={CheckIsKit}
+                      />
+                    }
+                    label="ES KIT ?"
+                  />
+
+                  {isKit && (
+                    <FormControl fullWidth sx={{ mt: 2 }}>
+                      <InputLabel id="estado-kit-label">ESTADO DEL KIT</InputLabel>
+                      <Select
+                        labelId="estado-kit-label"
+                        id="estado-kit"
+                        label="ESTADO DEL KIT"
+                        fullWidth
+                        value={estadoKit}
+                        sx={{ width: '100%' }}
+                        onChange={(e) => handleKitStateChange(e.target.value)}
+                      >
+                        <MenuItem value={0}>-- ESTADO --</MenuItem>
+                        <MenuItem value="COMPLETO">COMPLETO</MenuItem>
+                        <MenuItem value="INCOMPLETO">INCOMPLETO</MenuItem>
+                      </Select>
+                    </FormControl>
+                  )}
+                </FormGroup>
+              </Box>
+            </Grid>
+            {isKit && (
+              <Grid item lg={6} sm={12} xs={12}>
+                <TextField
+                  fullWidth
+                  id="observacion-kit"
+                  label="ESCRIBIR OBSERVACIÓN KIT..."
+                  placeholder="Escribir...."
+                  multiline
+                  disabled={activarObservacionesKit}
+                  rows={4}
+                  variant="standard"
+                  value={observacionesKit}
+                  onChange={(e) => setObservacionesKit(e.target.value)}
+                  sx={{
+                    display: activarObservacionesKit !== true ? 'block' : 'none',
+                    p: 2,
+                    borderRadius: 2,
+                    backgroundColor: '#f9fafb',
+                    border: '1px solid #e5e7eb'
+                  }}
+                />
+              </Grid>
+
+            )}
+
+
+            <Grid item lg={12} sm={12} xs={12}>
+              <Divider
+                sx={{
+                  mt: 1,
+                  '&::before, &::after': {
+                    borderColor: '#d1d5db'
+                  }
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    color: '#374151',
+                    letterSpacing: 0.5
+                  }}
+                >
+                  OBSERVACIONES
+                </Typography>
+              </Divider>
             </Grid>
 
-            <Grid item sm={12}>
-              <Divider>OBSERVACIONES</Divider>
-            </Grid>
-
-            <Grid item sm={12}>
+            <Grid item lg={12} sm={12} xs={12}>
               <TextField
                 fullWidth
                 id="observacion-general"
-                label="ESCRIBIR OBSERVACION ..."
+                label="ESCRIBIR OBSERVACIÓN ..."
                 placeholder="Escribir...."
                 multiline
                 disabled={habiliatObsercacion}
@@ -610,20 +542,43 @@ const InventarioCiego = () => {
                 variant="standard"
                 value={observacion}
                 onChange={(e) => setObservacion(e.target.value)}
+                sx={{
+                  p: 2,
+                  borderRadius: 2,
+                  backgroundColor: '#f9fafb',
+                  border: '1px solid #e5e7eb'
+                }}
               />
             </Grid>
 
-            <Grid item sm={12}>
-              <Button variant="contained" size='large' fullWidth onClick={grabarItem}>
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                size="large"
+                fullWidth
+                onClick={grabarItem}
+                sx={{
+                  py: 1.5,
+                  mt: 1,
+                  borderRadius: 2,
+                  fontWeight: 800,
+                  letterSpacing: 0.8,
+                  backgroundColor: '#1f6feb',
+                  boxShadow: 4,
+                  '&:hover': {
+                    backgroundColor: '#1a5fd0',
+                    boxShadow: 6
+                  }
+                }}
+              >
                 GRABAR ITEM
               </Button>
             </Grid>
           </Grid>
         </Paper>
       </Stack>
-    </>
+    </Box>
   );
+};
 
-}
-
-export default InventarioCiego
+export default InventarioCiego;
