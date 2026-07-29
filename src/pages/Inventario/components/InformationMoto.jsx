@@ -1,4 +1,3 @@
-import React from 'react'
 import {
     Divider, FormControl, Grid, InputLabel, MenuItem, Paper,
     Select, TextField

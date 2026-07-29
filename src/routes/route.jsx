@@ -91,6 +91,11 @@ import CambioNumeroComprobanteIndex from "@/pages/CarteraModulo/CambioNumeroComp
 import EditarLiquidaCobrosOriginalesIndex from "@/pages/TarjetasCreditoRefactor/EditarLiquidaCobrosOriginalesIndex";
 import EditarLiquidacionesTarjetasIndex from "@/pages/TarjetasCreditoRefactor/EditarLiquidacionesTarjetasIndex";
 import ReporteLiquidacionesCobrosIndex from "@/pages/TarjetasCreditoRefactor/ReporteLiquidacionesCobrosIndex";
+import ComprobantesPagosIndex from "@/pages/Contabilidad/Pages/Comprobantes_Pagos/ComprobantesPagosIndex";
+import ReporteComprobantePagoIndexs from "@/pages/Contabilidad/Pages/Comprobantes_Pagos/ReporteComprobantePagoIndexs";
+import ControlMatriculacion from "@/pages/modulo-matriculacion/control-matriculacion";
+import SubirPagosSriPage from "@/pages/modulo-matriculacion/subir-pagos-sri.page";
+import SubirPagosBancosPage from "@/pages/modulo-matriculacion/subir-pagos-banco.page";
 
 export const routes = [
   
@@ -100,7 +105,13 @@ export const routes = [
   { path: "/entregar-premio", element: <ConfirmarEntregaPremioCliente />},
   { path: "/reporte-inventario-fecha", element: <ReporteAuditoriaInventarioIndex />}, 
   { path: "/crud-usuarios-pagos-extraordinarios", element: <AutorizarPagosExtraordinariosMatriculacionIndex />},
-  { path: "/cambio-numero-comprobante", element: <CambioNumeroComprobanteIndex />},
+  { path: "/cambio-numero-comprobante", element: <CambioNumeroComprobanteIndex />}, 
+  { path: "/subir-comprobantes", element: <ComprobantesPagosIndex />},
+  { path: "/reporte-comprobante-pagos", element: <ReporteComprobantePagoIndexs />}, 
+  
+  { path: "/control-matriculacion-principal", element: <ControlMatriculacion />},
+  { path: "/matriculacion-subir-pagos-sri", element: <SubirPagosSriPage />},
+  { path: "/matriculacion-subir-pagos-bancos", element: <SubirPagosBancosPage />},
 
 
   { path: "/subir-pcrs", element: <SubirPcrsIndex />},
@@ -114,9 +125,6 @@ export const routes = [
   { path: "/editar-cobros-originales", element: <EditarLiquidaCobrosOriginalesIndex />},
   { path: "/editar-liquidaciones-tarjetas", element: <EditarLiquidacionesTarjetasIndex />},
   { path: "/reporte-liquidaciones-tarjetas", element: <ReporteLiquidacionesCobrosIndex  />},
-
-
-
 
 
   { path: "/reporte-no-liquidados-matricula", element: <ReporteNoLiquidadasIndex />},

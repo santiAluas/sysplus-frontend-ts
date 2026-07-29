@@ -1,15 +1,15 @@
 @keyframes parpadeo {
     0% {
-      color: yellowgreen;  /* Color inicial */
+      color: yellowgreen;  
     }
     50% {
-      color: yellow;    /* Color intermedio */
+      color: yellow;   
     }
     100% {
-      color: white;  /* Color final */
+      color: white;  
     }
   }
   
   .parpadeo-rojo {
-    animation: parpadeo 1s infinite;  /* 1s es la duración de la animación, infinite para que sea continua */
+    animation: parpadeo 1s infinite;  
   }

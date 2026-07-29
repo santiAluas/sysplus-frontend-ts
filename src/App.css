@@ -1,3 +1,16 @@
+html,
+body,
+#root {
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  margin: 0;
+  font-weight: 400;
+  color: #1e293b;
+  background-color: #f8fafc;
+}
+
 .App {
   text-align: center;
 }
@@ -35,4 +48,10 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Inter', sans-serif;
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Button, Select, MenuItem, InputLabel, FormControl, Typography, Box, IconButton } from "@mui/material";
-import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import { ArrowBack, ArrowForward, Close } from "@mui/icons-material";
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import BasePage from "@/componentesCommons/BasePage";
@@ -14,14 +14,12 @@ const UploadImagesCobrax = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isProcessing, setIsProcessing] = useState(false);
 
-    // Manejar la carga de imágenes
     const handleImageUpload = (event) => {
         const files = Array.from(event.target.files);
-        const newImages = files.map((file) => ({ file, url: URL.createObjectURL(file) }));
+        const newImages = files.map(( file, index) => ({ file, url: URL.createObjectURL(file), id: crypto.randomUUID() }));
         setImages((prev) => [...prev, ...newImages]);
     };
 
-    // Actualizar nombres de archivos cuando cambian los datos
     const getUpdatedImages = () => {
         return images.map((image) => {
             const random = Math.floor(10000 + Math.random() * 90000);
@@ -32,7 +30,6 @@ const UploadImagesCobrax = () => {
         });
     };
 
-    // Enviar imagen al servidor
     const uploadImage = async (imageData) => {
         const formData = new FormData();
         formData.append("cedula", numeroCedula);
@@ -44,13 +41,16 @@ const UploadImagesCobrax = () => {
             const response = await axios.post("https://comprobantes.unnoparts.com.ec/api/UploadImage", formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             });
+            setImages([])
+            setTipoVerificacion("VL");
+            setCurrentIndex(0);
 
         } catch (error) {
             console.error("Error en la solicitud:", error);
         }
     };
     const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-    
+
     const handleSubmit = async () => {
         const updatedImages = getUpdatedImages();
         setIsProcessing(true);
@@ -67,6 +67,7 @@ const UploadImagesCobrax = () => {
             await uploadImage(imageData);
             await sleep(6000);
         }
+        setImages([])
         toast.dismiss();
         toast.success('Proceso completado exitosamente', {
             position: "top-center",
@@ -76,9 +77,9 @@ const UploadImagesCobrax = () => {
             pauseOnHover: true,
             draggable: true,
         });
+        setImages([])
     };
 
-    // Navegación del carrusel
     const prevImage = () => {
         setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
     };
@@ -86,6 +87,11 @@ const UploadImagesCobrax = () => {
     const nextImage = () => {
         setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
     };
+
+    const eliminar = (item) =>{
+        setImages(prev => (prev.filter(x => x.id != item.id)))
+        setCurrentIndex(0);
+    }
 
     return (
 
@@ -103,7 +109,7 @@ const UploadImagesCobrax = () => {
                     pauseOnHover
                     theme="dark"
                 />
-               
+
                 <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
                     <TextField
                         label="Número de Cédula"
@@ -136,15 +142,30 @@ const UploadImagesCobrax = () => {
                     {images.length > 0 && (
                         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 2, mt: 2 }}>
                             <IconButton onClick={prevImage}><ArrowBack /></IconButton>
-                            <Box sx={{ display: "flex", justifyContent: "center" }}>
+                            <Box sx={{
+                                position: "relative",
+                                display: "inline-flex",
+                                justifyContent: "center"
+                            }}>
+                                <IconButton onClick={() => eliminar(images[currentIndex])} style={{ position: 'absolute', 
+                                                                        top: 5, 
+                                                                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
+                                                                        left: 270, 
+                                                                        background: 'red',
+                                                                        width: '25px',
+                                                                        height: '25px', 
+                                                                        color: 'white' }}><Close /></IconButton>
                                 <img src={images[currentIndex].url} alt={`Imagen ${currentIndex}`} width={300} />
                             </Box>
                             <IconButton onClick={nextImage}><ArrowForward /></IconButton>
                         </Box>
                     )}
-                    <Button variant="contained" color="primary" onClick={handleSubmit}>
-                        Subir Imágenes
-                    </Button>
+                    {images.length > 0 && (
+                        <Button variant="contained" color="primary" onClick={handleSubmit}>
+                            Subir Imágenes
+                        </Button>
+                    )}
+
                 </Box>
             </Box>
         </BasePage>

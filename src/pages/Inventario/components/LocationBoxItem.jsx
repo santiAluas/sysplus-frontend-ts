@@ -1,4 +1,5 @@
 import { Box, Grid, TextField, Typography } from "@mui/material";
+import { kMaxLength } from "buffer";
 
 const LocationBoxItem = ({ value, onChange, sxTextField }) => {
   const handleChange = (campo) => (e) => {
@@ -34,6 +35,7 @@ const LocationBoxItem = ({ value, onChange, sxTextField }) => {
           <TextField
             label="RAC"
             variant="standard"
+          
             value={value.rac}
             onChange={handleChange("rac")}
             fullWidth
@@ -42,6 +44,7 @@ const LocationBoxItem = ({ value, onChange, sxTextField }) => {
               inputMode: "numeric",
               pattern: "[0-9]*",
             }}
+            slotProps={{ htmlInput: { maxLength: 1 } }}
           />
         </Grid>
 

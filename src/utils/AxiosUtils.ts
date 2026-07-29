@@ -5,9 +5,9 @@ import { Decrypt_User } from '@/services/Storage_Service';
 
 
 const api = (prefix = '', isUrlWhatApp = false) => {
-  //   const { showAlert } = useAlert();
-console.log(localStorage.getItem('token'))
 const user = Decrypt_User();
+console.log(user.Token);
+
   const instance = axios.create({
     baseURL: (isUrlWhatApp ? BASE_URL_WHATSAPP_WEB : BASE_URL) + `${prefix}`,
     headers: {
