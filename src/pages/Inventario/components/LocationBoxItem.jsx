@@ -1,15 +1,36 @@
-import { Box, Grid, TextField, Typography } from "@mui/material";
+import { LocalizacionItemsRangoConfig } from "@/pages/Inventario/configs/LocalizacionItemsRangoConfig";
+import { Autocomplete, Box, Grid, TextField, Typography } from "@mui/material";
 import { kMaxLength } from "buffer";
+import { useEffect } from "react";
 
 const LocationBoxItem = ({ value, onChange, sxTextField }) => {
-  const handleChange = (campo) => (e) => {
-    const soloNumeros = e.target.value.replace(/\D/g, "");
-
+  const handleChange = (campo) => (e, nuevaOpcion) => {
     onChange({
       ...value,
-      [campo]: soloNumeros,
+      [campo]: nuevaOpcion,
     });
   };
+
+
+  const generarOpcionesRango = (inicio, fin) => {
+    return Array.from(
+      { length: fin - inicio + 1 },
+      (_, index) => ({ label: index.toString(), value: index.toString() })
+    )
+  }
+
+  const rangos = LocalizacionItemsRangoConfig;
+
+  const racs = generarOpcionesRango(rangos.rac.inicio, rangos.rac.fin);
+  const columnas = generarOpcionesRango(rangos.columna.inicio, rangos.columna.fin);
+  const niveles = generarOpcionesRango(rangos.nivel.inicio, rangos.nivel.fin);
+  const posicion = generarOpcionesRango(rangos.posicion.inicio, rangos.posicion.fin);
+
+
+
+  useEffect(() => {
+    generarOpcionesRango(1, 19)
+  }, [])
 
   return (
     <Box
@@ -32,7 +53,7 @@ const LocationBoxItem = ({ value, onChange, sxTextField }) => {
 
       <Grid container spacing={2}>
         <Grid item xs={12} md={3}>
-          <TextField
+          {/* <TextField
             label="RAC"
             variant="standard"
           
@@ -45,11 +66,23 @@ const LocationBoxItem = ({ value, onChange, sxTextField }) => {
               pattern: "[0-9]*",
             }}
             slotProps={{ htmlInput: { maxLength: 1 } }}
+          /> */}
+          <Autocomplete
+            options={racs}
+            fullWidth
+            autoHighlight
+            autoSelect
+            openOnFocus
+            value={value.rac ?? null}
+            onChange={handleChange("rac")}
+            renderInput={(params) => (
+              <TextField {...params} label="Rac" />
+            )}
           />
         </Grid>
 
         <Grid item xs={12} md={3}>
-          <TextField
+          {/* <TextField
             label="Columna"
             variant="standard"
             value={value.columna}
@@ -60,11 +93,20 @@ const LocationBoxItem = ({ value, onChange, sxTextField }) => {
               inputMode: "numeric",
               pattern: "[0-9]*",
             }}
-          />
+          /> */}
+          <Autocomplete
+            options={columnas}
+            fullWidth
+            value={value.columna ?? null}
+            autoHighlight
+            autoSelect
+            openOnFocus
+            onChange={handleChange("columna")}
+            renderInput={(params) => <TextField {...params} label="Columna" />} />
         </Grid>
 
         <Grid item xs={12} md={3}>
-          <TextField
+          {/* <TextField
             label="Nivel"
             variant="standard"
             value={value.nivel}
@@ -75,11 +117,20 @@ const LocationBoxItem = ({ value, onChange, sxTextField }) => {
               inputMode: "numeric",
               pattern: "[0-9]*",
             }}
-          />
+          /> */}
+          <Autocomplete
+            options={niveles}
+            fullWidth
+            autoHighlight
+            autoSelect
+            openOnFocus
+            value={value.nivel ?? null}
+            onChange={handleChange("nivel")}
+            renderInput={(params) => <TextField {...params} label="Nivel" />} />
         </Grid>
 
         <Grid item xs={12} md={3}>
-          <TextField
+          {/* <TextField
             label="Posición"
             variant="standard"
             value={value.posicion}
@@ -90,7 +141,16 @@ const LocationBoxItem = ({ value, onChange, sxTextField }) => {
               inputMode: "numeric",
               pattern: "[0-9]*",
             }}
-          />
+          /> */}
+          <Autocomplete
+            options={posicion}
+            fullWidth
+            value={value.posicion ?? null}
+            autoHighlight
+            autoSelect
+            openOnFocus
+            onChange={handleChange("posicion")}
+            renderInput={(params) => <TextField {...params} label="Posición" />} />
         </Grid>
       </Grid>
     </Box>

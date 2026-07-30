@@ -57,7 +57,9 @@ const InventarioCiegoCompoenent = ({ inventario }) => {
     ubicacion,
     setUbicacion,
     estiloLaberBuenMalEstado,
-    grabarItem
+    grabarItem,
+    cantidadRevision,
+    setCantidadRevision
   } = inventario;
 
   const estadosProducto =
@@ -168,7 +170,7 @@ const InventarioCiegoCompoenent = ({ inventario }) => {
               />
             ) : (
               <>
-                <FormGroup sx={{ mb: 1}}>
+                <FormGroup sx={{ mb: 1 }}>
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -308,8 +310,8 @@ const InventarioCiegoCompoenent = ({ inventario }) => {
                   id="CANTIDAD REVISION"
                   label="REVISION"
                   variant="standard"
-                  value={cantidadMalEstado}
-                  onChange={(e) => setCountProduct(e, setCantidadMalEstado)}
+                  value={cantidadRevision}
+                  onChange={(e) => setCountProduct(e, setCantidadRevision)}
                   fullWidth
                   sx={estiloLaberBuenMalEstado('#33346d')}
                 />
@@ -321,8 +323,25 @@ const InventarioCiegoCompoenent = ({ inventario }) => {
                   label="TOTAL CONTADO"
                   variant="standard"
                   value={cantidad}
-                  disabled={true}
+                  disabled
                   fullWidth
+                  sx={{
+                    "& .MuiInputBase-input": {
+                      fontWeight: 700,
+                      fontSize: 18,
+                    },
+                    "& .MuiInputBase-input.Mui-disabled": {
+                      WebkitTextFillColor: "#000",
+                      opacity: 1,
+                    },
+                    "& .MuiInputLabel-shrink": {
+                      fontWeight: 900,
+                      fontSize: 18,
+                    },
+                    "& .MuiInputLabel.Mui-disabled": {
+                      opacity: 1,
+                    }
+                  }}
                 />
               </Grid>
             </Grid>
@@ -589,7 +608,7 @@ const InventarioCiegoCompoenent = ({ inventario }) => {
               borderRadius: 5,
               backgroundColor: '#1f6feb',
               boxShadow: 4,
-              height:37,
+              height: 37,
               '&:hover': {
                 backgroundColor: '#1a5fd0',
                 boxShadow: 6

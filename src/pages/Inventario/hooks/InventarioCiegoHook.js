@@ -12,6 +12,8 @@ const InventarioCiegoItemHook = ({ userLogin, seleccionarAgencia }) => {
 
   const [cantidadBuenEstado, setCantidadBuenEstado] = useState(0);
   const [cantidadMalEstado, setCantidadMalEstado] = useState(0);
+  const [cantidadRevision, setCantidadRevision] = useState(0);
+
 
   const [existProduct, setExistProduct] = useState(false);
   const [esSobrante, setEsSobrante] = useState(false);
@@ -26,15 +28,15 @@ const InventarioCiegoItemHook = ({ userLogin, seleccionarAgencia }) => {
   const [activarObservacionesKit, setActivarObservacionesKit] = useState(true);
 
   const [ubicacion, setUbicacion] = useState({
-    rac: '',
-    columna: '',
-    nivel: '',
-    posicion: ''
+    rac: null,
+  columna: null,
+  nivel: null,
+  posicion: null
   });
 
   const cantidad = useMemo(() => {
-    return Number(cantidadBuenEstado || 0) + Number(cantidadMalEstado || 0);
-  }, [cantidadBuenEstado, cantidadMalEstado]);
+    return Number(cantidadBuenEstado || 0) + Number(cantidadMalEstado || 0) + Number(cantidadRevision || 0);
+  }, [cantidadBuenEstado, cantidadMalEstado, cantidadRevision]);
 
   const respuestaAlert = (titulo, mensaje, type) => {
     showAlert({
@@ -336,7 +338,8 @@ const InventarioCiegoItemHook = ({ userLogin, seleccionarAgencia }) => {
 
     ubicacion,
     setUbicacion,
-
+    cantidadRevision, 
+    setCantidadRevision,
     estiloLaberBuenMalEstado,
     grabarItem
   };
